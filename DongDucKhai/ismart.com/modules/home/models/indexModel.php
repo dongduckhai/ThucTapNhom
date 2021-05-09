@@ -16,6 +16,6 @@ function get_product_total_have_same_cat($cat)
     return db_num_rows("SELECT * FROM `tbl_products` WHERE `cat_id` = '{$cat}' ");
 }
 
-/* home */
+
 
 ?>
