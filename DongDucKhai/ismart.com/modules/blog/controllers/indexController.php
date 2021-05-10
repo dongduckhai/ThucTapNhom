@@ -1,6 +1,9 @@
 <?php
 /* các action xử lý */
 function construct() {
+//  đây là action dùng chung, load đầu tiên";
+/*  gọi đến indexModal  */
+/*  mấy hàm load này ở trong file core/base.php */
     load_model('index');
     load('lib','pagging');
 }
@@ -8,8 +11,14 @@ function construct() {
 function indexAction() 
 {
     /* phần pagging */
-    global $start;
+    global $start, $num_page, $page;
+    $num_row = db_num_rows("SELECT * FROM `tbl_posts`");
     $num_per_page = 5;
+    $num_page = ceil($num_row / $num_per_page);
+    /* chỉ số bản ghi mỗi trang */
+    $page = isset($_GET['page'])? (int)$_GET['page']:1;
+    /* Xuất phát từ phàn tử thứ */
+    $start = ($page - 1) * $num_per_page;
     
     /* phần index */
     global $post_list;
