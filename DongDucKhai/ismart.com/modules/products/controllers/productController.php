@@ -12,13 +12,6 @@ function indexAction()
 {
     global $brand_item, $brand_content, $cat_content, $product_list, $start, $num_page, $page;
     $brand_id = (int)$_GET['id'];
-    /* pagging */
-    $num_row = db_num_rows("SELECT * FROM `tbl_products` WHERE `brand_id` = {$brand_id} ");
-    $num_per_page = 8;
-    $num_page = ceil($num_row / $num_per_page);
-    $page = isset($_GET['page'])? (int)$_GET['page']:1;
-    $start = ($page - 1) * $num_per_page;
-    $where = " `brand_id` = {$brand_id}";
     /* productIndex */
     if(isset($_POST['btn_sort']))
     {
