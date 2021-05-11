@@ -12,7 +12,16 @@ function indexAction()
 {
     if($_GET['search'] != NULL)
     {
-        
+        /* phần pagging */
+        global $start, $num_page, $page, $search;
+        $search = $_GET['search'];
+        $num_row = db_num_rows("SELECT * FROM `tbl_products` WHERE `product_name` LIKE '%{$search}%'  ");
+        $num_per_page = 8;
+        $num_page = ceil($num_row / $num_per_page);
+        /* chỉ số bản ghi mỗi trang */
+        $page = isset($_GET['page'])? (int)$_GET['page']:1;
+        /* Xuất phát từ phàn tử thứ */
+        $start = ($page - 1) * $num_per_page;
     
         /* phần index */
         global $search_product_list;
