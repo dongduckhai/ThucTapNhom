@@ -17,5 +17,9 @@ namespace QuanLiThuVien.Models.Function
         {
             return db.TacGias.ToList();
         }
+        public IQueryable<TacGia> TGs
+        {
+            get { return db.TacGias; }
+        }
     }
 }

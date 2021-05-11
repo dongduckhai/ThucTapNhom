@@ -18,6 +18,10 @@ namespace QuanLiThuVien.Models.Function
         {
             return db.Saches.SqlQuery("AllBook").ToList();
         }
+        public List<Sach> GetSachs()
+        {
+            return db.Saches.ToList();
+        }
         //get sach for slide
         public List<Sach> SachChoSlide(int top)
         {
@@ -48,6 +52,46 @@ namespace QuanLiThuVien.Models.Function
         {
             Sach dbEntry = db.Saches.Find(ID_SP);
             return dbEntry;
+        }
+        public int Insert(Sach model)
+        {
+            Sach dbEntry = db.Saches.Find(model.SachID);
+            if (dbEntry != null)
+            {
+                return -1;
+
+            }
+            db.Saches.Add(model);
+            db.SaveChanges();
+            return model.SachID;
+        }
+        public int Update(Sach model)
+        {
+            Sach dbEntry = db.Saches.Find(model.SachID);
+            if (dbEntry == null)
+            {
+                return -1;
+            }
+            dbEntry.SachID = model.SachID;
+            dbEntry.TacgiaID = model.TacgiaID;
+            dbEntry.TheloaiID = model.TheloaiID;
+            dbEntry.NhaxuatbanID = model.NhaxuatbanID;
+            dbEntry.Tensach = model.Tensach;
+            dbEntry.Namxuatban = model.Namxuatban;
+            dbEntry.ImgLink = model.ImgLink;
+            
+            db.SaveChanges();
+            return model.SachID;
+        }
+        public int Delete(Sach model)
+        {
+            Sach dbEntry = db.Saches.Find(model.SachID);
+            if (dbEntry != null)
+            {
+                db.Saches.Remove(dbEntry);
+                db.SaveChanges();
+            }
+            return model.SachID;
         }
     }
 }

@@ -1,10 +1,10 @@
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity;
+using System.Linq;
+
 namespace QuanLiThuVien.Models.Entities
 {
-    using System;
-    using System.Data.Entity;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Linq;
-
     public partial class QuanLiThuVienDb : DbContext
     {
         public QuanLiThuVienDb()
@@ -15,11 +15,14 @@ namespace QuanLiThuVien.Models.Entities
         public virtual DbSet<DocGia> DocGias { get; set; }
         public virtual DbSet<MuonTra> MuonTras { get; set; }
         public virtual DbSet<NhanVien> NhanViens { get; set; }
+        public virtual DbSet<NhanVien_History> NhanVien_History { get; set; }
         public virtual DbSet<NhaXuatBan> NhaXuatBans { get; set; }
         public virtual DbSet<Sach> Saches { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TacGia> TacGias { get; set; }
         public virtual DbSet<TheLoai> TheLoais { get; set; }
         public virtual DbSet<TheThuVien> TheThuViens { get; set; }
+        public virtual DbSet<Admin> Admins { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -45,6 +48,16 @@ namespace QuanLiThuVien.Models.Entities
                 .WithOptional(e => e.NhanVien1)
                 .HasForeignKey(e => e.NhanvientraID);
 
+            modelBuilder.Entity<NhanVien_History>()
+                .Property(e => e.SDT)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<NhanVien_History>()
+                .Property(e => e.Operation)
+                .IsFixedLength()
+                .IsUnicode(false);
+
             modelBuilder.Entity<NhaXuatBan>()
                 .Property(e => e.Email)
                 .IsUnicode(false);
@@ -69,6 +82,10 @@ namespace QuanLiThuVien.Models.Entities
             modelBuilder.Entity<TheThuVien>()
                 .Property(e => e.mail)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<Admin>()
+                .Property(e => e.pass)
+                .IsFixedLength();
         }
     }
 }

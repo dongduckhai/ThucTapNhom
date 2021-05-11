@@ -17,6 +17,9 @@ namespace QuanLiThuVien.Models.Function
         {
             return db.TheLoais.ToList();
         }
-
+        public IQueryable<TheLoai> TLs
+        {
+            get { return db.TheLoais; }
+        }
     }
 }

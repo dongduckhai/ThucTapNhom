@@ -17,5 +17,9 @@ namespace QuanLiThuVien.Models.Function
         {
             return db.NhaXuatBans.ToList();
         }
+        public IQueryable<NhaXuatBan> NXBs
+        {
+            get { return db.NhaXuatBans; }
+        }
     }
 }
