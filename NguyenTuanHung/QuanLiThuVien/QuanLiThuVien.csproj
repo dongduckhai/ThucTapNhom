@@ -144,6 +144,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\ADMIN\ADMINAreaRegistration.cs" />
     <Compile Include="Areas\ADMIN\Controllers\HomeAdminController.cs" />
+    <Compile Include="Areas\ADMIN\Controllers\SachController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\SanPhamAdminController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -630,10 +631,10 @@
     <Content Include="Areas\ADMIN\Assets\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Areas\ADMIN\Assets\fonts\glyphicons-halflings-regulard41d.eot" />
     <Content Include="Areas\ADMIN\Views\HomeAdmin\Index.cshtml" />
-    <Content Include="Areas\ADMIN\Views\SanPhamAdmin\Create.cshtml" />
-    <Content Include="Areas\ADMIN\Views\SanPhamAdmin\Details.cshtml" />
-    <Content Include="Areas\ADMIN\Views\SanPhamAdmin\Edit.cshtml" />
-    <Content Include="Areas\ADMIN\Views\SanPhamAdmin\Index.cshtml" />
+    <Content Include="Areas\ADMIN\Views\Sach\Create.cshtml" />
+    <Content Include="Areas\ADMIN\Views\Sach\Details.cshtml" />
+    <Content Include="Areas\ADMIN\Views\Sach\Edit.cshtml" />
+    <Content Include="Areas\ADMIN\Views\Sach\Index.cshtml" />
     <Content Include="Areas\ADMIN\Views\Shared\Header.cshtml" />
     <Content Include="Areas\ADMIN\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\ADMIN\Views\web.config" />
@@ -688,6 +689,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\ADMIN\Models\" />
+    <Folder Include="Areas\ADMIN\Views\SanPhamAdmin\" />
     <Folder Include="Content\css\github.com\necolas\" />
     <Folder Include="Views\Default\" />
     <Folder Include="Views\Menu\" />
