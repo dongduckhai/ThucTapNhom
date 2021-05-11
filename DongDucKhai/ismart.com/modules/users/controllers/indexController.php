@@ -10,6 +10,87 @@ function construct() {
     load('lib','email');
 }
 
+function regAction() 
+{
+    global $error, $username, $password, $fullname, $email, $phone_number, $alert;
+    /* echo send_mail('dongduckhai308@gmail.com', 'Đồng Đức Khải', 'Kích hoạt tài khoản', LINK); */
+    if(isset($_POST["btn_reg"])){
+        $error = array();
+        /* Ktra lỗi thiếu thông tin đăng nhập */
+        if(empty($_POST["username"])){
+            $error["username"] = "*Không để trống tên đăng nhập*";
+        }
+        else
+        {   
+            $username = $_POST["username"]; 
+        }
+        if(empty($_POST["password"])){
+            $error["password"] = "*Không để trống mật khẩu*";
+        }
+        else
+        {
+            $password = md5($_POST["password"]) ;
+        }
+        if(empty($_POST["fullname"])){
+            $error["fullname"] = "*Không để trống họ và tên*";
+        }
+        else
+        {
+            $fullname = $_POST["fullname"];  
+        }
+        if(empty($_POST["email"])){
+            $error["email"] = "*Không để trống email*";
+        }
+        else
+        {
+            if(!is_email($_POST['email']))
+            {
+                $error['email'] = "*Email không đúng định dạng*";
+            }
+            else{
+                $email = $_POST["email"];  
+            }
+        }
+        if(empty($_POST["phone_number"])){
+            $error["phone_number"] = "*Không để trống số điện thoại*";
+        }
+        else
+        {
+            $phone_number = $_POST["phone_number"];
+        }
+        if(empty($error))
+        {
+            if(!customer_exists($username, $email)){
+                $active_token = md5($username.time());
+                $data = array(
+                    'cus_id' => NULL,
+                    'fullname' => $fullname,
+                    'email' => $email,
+                    'password' => $password,
+                    'username' => $username,
+                    'phone_number' => $phone_number,
+                    'is_active'=> '0',
+                    'active_token' => $active_token,
+                    'reg_date' => time(),
+                );
+                add_customer($data);
+                $link_active = base_url("?mod=users&action=active&active_token={$active_token}");
+                $content = "<p>Chào {$data['fullname']}</p>
+                <p>Ismart vừa nhận được yêu cầu đăng ký tài khoản của bạn.Để xác nhận đăng ký 
+                vui lòng click vào đường link bên dưới: <hr> {$link_active}</p>
+                <p>Nếu không phải yêu cầu của bạn hãy bỏ qua email này</p>";
+                send_mail($data['email'], $data['fullname'], 'Kích hoạt tài khoản', $content);
+                delete_customer_outdate($data['reg_date']);
+                $alert = "Vui lòng xác nhận email để hoàn tất đăng ký";
+                /* redirect("?mod=users&action=login"); */
+            }
+            else{
+                $error['account'] = "Email hoặc Tên đăng nhập đã tồn tại";
+            }
+        }
+    }
+    load_view('reg');
+}
 function loginAction()
 {
     global $error, $username, $password ;
