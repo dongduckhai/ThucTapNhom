@@ -57,11 +57,11 @@
                                     <td>@i.SachID</td>
                                     <td>@i.Tensach</td>
                                     <td><img class="img-responsive" src="~/Content/img/product/@i.ImgLink" alt="" style="height: 100px;"/></td>
-                                    <td class="center">@i.TacGia.TacgiaID</td>
-                                    <td class="center">@i.TheLoai.TheloaiID</td>
-                                    <td class="center">@i.NhaXuatBan.NhaxuatbanID</td>
+                                    <td class="center">@i.TacGia.Tentacgia</td>
+                                    <td class="center">@i.TheLoai.Tentheloai</td>
+                                    <td class="center">@i.NhaXuatBan.TenNXB</td>
                                     <td>@i.Namxuatban</td>
-                                    <td><a href="/ADMIN/SanphamAdmin/Edit/@i.SachID">Edit</a></td>
+                                    <td><a href="/ADMIN/Sach/Edit/@i.SachID">Edit</a></td>
                                     <td><a href="@Url.Action("XoaSP",new { id = i.SachID})" onclick="return confirm('Bạn có chắc muốn xóa ?');" class="">Delete</a></td>
                                 </tr>
                             }

@@ -145,7 +145,6 @@
     <Compile Include="Areas\ADMIN\ADMINAreaRegistration.cs" />
     <Compile Include="Areas\ADMIN\Controllers\HomeAdminController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\SachController.cs" />
-    <Compile Include="Areas\ADMIN\Controllers\SanPhamAdminController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
@@ -689,7 +688,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\ADMIN\Models\" />
-    <Folder Include="Areas\ADMIN\Views\SanPhamAdmin\" />
     <Folder Include="Content\css\github.com\necolas\" />
     <Folder Include="Views\Default\" />
     <Folder Include="Views\Menu\" />

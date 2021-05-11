@@ -33,7 +33,7 @@ namespace QuanLiThuVien.Areas.ADMIN.Controllers
             var dao2 = new TheLoaiFunction().TLs.Where(p => p.Tentheloai != null);
             ViewBag.TheloaiID = new SelectList(dao2, "TheloaiID", "tentheloai", null);
             var dao3 = new NhaXuatBanFunction().NXBs.Where(p => p.TenNXB != null);
-            ViewBag.NXBID = new SelectList(dao3, "NXBID", "tennxb", null);
+            ViewBag.NhaxuatbanID = new SelectList(dao3, "NhaxuatbanID", "tennxb", null);
             return View();
         }
 
@@ -51,7 +51,7 @@ namespace QuanLiThuVien.Areas.ADMIN.Controllers
                 else if (file.ContentLength > 0)
                 {                 //TO:DO
                     var fileName = Path.GetFileName(file.FileName);
-                    var path = Path.Combine(Server.MapPath("~/Content/images/laptop"), fileName);
+                    var path = Path.Combine(Server.MapPath("~/Content/img/product/"), fileName);
                     file.SaveAs(path);
                     //     ModelState.Clear();
                     // TODO: Add insert logic here
@@ -73,11 +73,13 @@ namespace QuanLiThuVien.Areas.ADMIN.Controllers
         {
             var model = new SachFunction().FindEntity(id);
             var dao = new TacGiaFunction().TGs;
+            var dao1 = new TheLoaiFunction().TLs;
+            var dao2 = new NhaXuatBanFunction().NXBs;
             ViewBag.TacgiaID = new SelectList(dao, "TacgiaID", "Tentacgia", model.TacgiaID);
             ViewBag.Tentacgia = model.TacGia.Tentacgia;
-            ViewBag.TheloaiID = new SelectList(dao, "TheloaiID", "Tentheloai", model.TheloaiID);
+            ViewBag.TheloaiID = new SelectList(dao1, "TheloaiID", "Tentheloai", model.TheloaiID);
             ViewBag.Tentheloai = model.TheLoai.Tentheloai;
-            ViewBag.NXBID = new SelectList(dao, "NXBID", "Tennxb", model.NhaxuatbanID);
+            ViewBag.NhaxuatbanID = new SelectList(dao2, "NhaxuatbanID", "Tennxb", model.NhaxuatbanID);
             ViewBag.Tennxb = model.NhaXuatBan.TenNXB;
             var test1 = new SelectList(dao, "TacgiaID", "Tentacgia", model.TacgiaID);
             var test2 = new SelectList(dao, "TheloaiID", "Tentheloai", model.TheloaiID);
@@ -141,6 +143,13 @@ namespace QuanLiThuVien.Areas.ADMIN.Controllers
             {
                 return View();
             }
+        }
+        public RedirectToRouteResult XoaSP(int id, Sach model)
+        {
+            model.SachID = id;
+            var result = new SachFunction().Delete(model);
+
+            return RedirectToAction("Index");
         }
     }
 }
