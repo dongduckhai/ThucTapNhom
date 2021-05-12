@@ -5,37 +5,37 @@
     Layout = "~/Areas/ADMIN/Views/Shared/_Layout.cshtml";
 }
 
-    <section class="wrapper site-min-height">
-        <section class="panel">
-            <header class="panel-heading">
-                Cập nhật sản phẩm
-            </header>
-            <div class="panel-body">
-                @using (Html.BeginForm("Edit", "Sach", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true, "", new { @class = "help-block" })
-                    @Html.HiddenFor(model => model.SachID)
-
+<section class="wrapper site-min-height">
+    <section class="panel">
+        <header class="panel-heading">
+            Bảng sản phẩm
+        </header>
+        <div class="panel-body">
+            @using (Html.BeginForm("Edit", "Sach", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "help-block" })
+                @Html.HiddenFor(model => model.SachID)
                 <form role="form">
                     <div class="form-group">
+
                         @Html.LabelFor(model => model.Tensach, "Tên sách", htmlAttributes: new { @class = "control-label col-md-2" })
                         @Html.TextBoxFor(model => model.Tensach)
                         @Html.ValidationMessageFor(model => model.Tensach, "", new { @class = "help-block" })
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.TacgiaID, "Tác giả", htmlAttributes: new { @class = "control-label col-md-2" })
-                        @Html.DropDownListFor(model => model.TacgiaID, ViewBag.TacgiaID as SelectList, "Chọn một tác giả ", new { @class = "fomr-control" })
+                        @Html.DropDownListFor(model => model.TacgiaID, ViewBag.TacgiaID as SelectList, new { @class = "fomr-control" })
                         @Html.ValidationMessageFor(model => model.TacgiaID, "", new { @class = "help-block" })
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.TheloaiID, "Thể loại", htmlAttributes: new { @class = "control-label col-md-2" })
-                        @Html.DropDownListFor(model => model.TheloaiID, ViewBag.TheloaiID as SelectList, "Chọn một thể loại ", new { @class = "fomr-control" })
+                        @Html.DropDownListFor(model => model.TheloaiID, ViewBag.TheloaiID as SelectList, new { @class = "fomr-control" })
                         @Html.ValidationMessageFor(model => model.TheloaiID, "", new { @class = "help-block" })
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.NhaxuatbanID, "Nhà xuất bản", htmlAttributes: new { @class = "control-label col-md-2" })
-                        @Html.DropDownListFor(model => model.NhaxuatbanID, ViewBag.NhaxuatbanID as SelectList, "Chọn một nhà xuất bản ", new { @class = "fomr-control" })
+                        @Html.DropDownListFor(model => model.NhaxuatbanID, ViewBag.NhaxuatbanID as SelectList, new { @class = "fomr-control" })
                         @Html.ValidationMessageFor(model => model.NhaxuatbanID, "", new { @class = "help-block" })
                     </div>
                     <div class="form-group">
@@ -49,15 +49,12 @@
                     </div>
                     <button type="submit" class="btn btn-info">Submit</button>
                 </form>
-                }
-                <div>
-                    @Html.ActionLink("Back to List", "Index")
-                </div>
-
-
+            }
+            <div>
+                @Html.ActionLink("Back to List", "Index")
             </div>
-        </section>
+
+
+        </div>
     </section>
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+</section>

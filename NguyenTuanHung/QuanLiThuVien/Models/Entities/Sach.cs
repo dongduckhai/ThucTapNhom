@@ -29,8 +29,7 @@ namespace QuanLiThuVien.Models.Entities
 
         public int? NhaxuatbanID { get; set; }
 
-        [Column(TypeName = "date")]
-        public DateTime? Namxuatban { get; set; }
+        public int? Namxuatban { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MuonTra> MuonTras { get; set; }

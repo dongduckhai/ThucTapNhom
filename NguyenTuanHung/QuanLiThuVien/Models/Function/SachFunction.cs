@@ -25,12 +25,12 @@ namespace QuanLiThuVien.Models.Function
         //get sach for slide
         public List<Sach> SachChoSlide(int top)
         {
-            return db.Saches.Where(x => x.Namxuatban > DateTime.Now).Take(top).ToList();
+            return db.Saches.Where(x => x.Namxuatban < 2020).Take(top).ToList();
         }
         //
         public List<Sach> SachMoi(DateTime dateTime)
         {
-            return db.Saches.Where(x => x.Namxuatban >= dateTime).ToList();
+            return db.Saches.Where(x => x.Namxuatban >= 1999).ToList();
         }
 
         //Lay top cac cuon sach muon nhieu

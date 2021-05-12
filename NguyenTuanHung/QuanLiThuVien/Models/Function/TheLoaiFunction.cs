@@ -21,5 +21,9 @@ namespace QuanLiThuVien.Models.Function
         {
             get { return db.TheLoais; }
         }
+        public int GetById(string name)
+        {
+            return db.TheLoais.SingleOrDefault(x => x.Tentheloai == name).TheloaiID;
+        }
     }
 }

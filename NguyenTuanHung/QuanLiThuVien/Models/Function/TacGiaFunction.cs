@@ -21,5 +21,9 @@ namespace QuanLiThuVien.Models.Function
         {
             get { return db.TacGias; }
         }
+        public int GetById(string name)
+        {
+            return db.TacGias.SingleOrDefault(x => x.Tentacgia == name).TacgiaID;
+        }
     }
 }

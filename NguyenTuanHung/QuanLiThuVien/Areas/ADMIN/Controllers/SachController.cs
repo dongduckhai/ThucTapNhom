@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using QuanLiThuVien.Models.Entities;
 using System.IO;
 using QuanLiThuVien.Models.Function;
+using QuanLiThuVien.Models.ViewModel;
 
 namespace QuanLiThuVien.Areas.ADMIN.Controllers
 {
@@ -71,19 +72,14 @@ namespace QuanLiThuVien.Areas.ADMIN.Controllers
         // GET: ADMIN/Sach/Edit/5
         public ActionResult Edit(int id)
         {
+            var dao1 = new TacGiaFunction().TGs.Where(p => p.Tentacgia != null);
+            ViewBag.TacgiaID = new SelectList(dao1, "TacgiaID", "tentacgia", null);
+            var dao2 = new TheLoaiFunction().TLs.Where(p => p.Tentheloai != null);
+            ViewBag.TheloaiID = new SelectList(dao2, "TheloaiID", "tentheloai", null);
+            var dao3 = new NhaXuatBanFunction().NXBs.Where(p => p.TenNXB != null);
+            ViewBag.NhaxuatbanID = new SelectList(dao3, "NhaxuatbanID", "tennxb", null);
             var model = new SachFunction().FindEntity(id);
-            var dao = new TacGiaFunction().TGs;
-            var dao1 = new TheLoaiFunction().TLs;
-            var dao2 = new NhaXuatBanFunction().NXBs;
-            ViewBag.TacgiaID = new SelectList(dao, "TacgiaID", "Tentacgia", model.TacgiaID);
-            ViewBag.Tentacgia = model.TacGia.Tentacgia;
-            ViewBag.TheloaiID = new SelectList(dao1, "TheloaiID", "Tentheloai", model.TheloaiID);
-            ViewBag.Tentheloai = model.TheLoai.Tentheloai;
-            ViewBag.NhaxuatbanID = new SelectList(dao2, "NhaxuatbanID", "Tennxb", model.NhaxuatbanID);
-            ViewBag.Tennxb = model.NhaXuatBan.TenNXB;
-            var test1 = new SelectList(dao, "TacgiaID", "Tentacgia", model.TacgiaID);
-            var test2 = new SelectList(dao, "TheloaiID", "Tentheloai", model.TheloaiID);
-            var test3 = new SelectList(dao, "NXBID", "Tennxb", model.NhaxuatbanID);
+            
             return View(model);
         }
 
@@ -101,15 +97,16 @@ namespace QuanLiThuVien.Areas.ADMIN.Controllers
                 else if (file.ContentLength > 0)
                 {                 //TO:DO
                     var fileName = Path.GetFileName(file.FileName);
-                    var path = Path.Combine(Server.MapPath("~/Content/images/laptop"), fileName);
+                    var path = Path.Combine(Server.MapPath("~/Content/img/product/"), fileName);
                     file.SaveAs(path);
                     //     ModelState.Clear();
                     // TODO: Add insert logic here
                     model.ImgLink = fileName;
-                    SachFunction _sanphamF = new SachFunction();
-                    _sanphamF.Update(model);
+                    
                     // Upload File đẩy về Server
                 }
+                SachFunction _sanphamF = new SachFunction();
+                _sanphamF.Update(model);
                 return RedirectToAction("Index");
             }
             catch
@@ -151,5 +148,6 @@ namespace QuanLiThuVien.Areas.ADMIN.Controllers
 
             return RedirectToAction("Index");
         }
+
     }
 }

@@ -21,5 +21,9 @@ namespace QuanLiThuVien.Models.Function
         {
             get { return db.NhaXuatBans; }
         }
+        public int GetById(string name)
+        {
+            return db.NhaXuatBans.SingleOrDefault(x => x.TenNXB == name).NhaxuatbanID;
+        }
     }
 }

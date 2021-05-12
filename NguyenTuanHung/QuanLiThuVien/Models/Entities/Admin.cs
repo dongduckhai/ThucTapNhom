@@ -14,7 +14,7 @@ namespace QuanLiThuVien.Models.Entities
         [StringLength(50)]
         public string name { get; set; }
 
-        [StringLength(10)]
+        [StringLength(50)]
         public string pass { get; set; }
     }
 }
