@@ -76,6 +76,8 @@ $(document).ready(function () {
         $('body,html').stop().animate({scrollTop: 0}, 800);
     });
 
+
+
 // CHOOSE NUMBER ORDER
     var value = parseInt($('#num-order').attr('value'));
     $('#plus').click(function () {

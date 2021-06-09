@@ -35,15 +35,15 @@
 }
 #customer-info-wp .form-row{ padding-bottom: 15px;}
 #customer-info-wp .form-row label{ display: block; padding-bottom: 10px; font-family: 'Roboto Medium'; font-weight: normal;}
-#customer-info-wp .form-row .form-col{ width: 50%; padding-right: 30px;}
-#customer-info-wp .form-row .form-col:nth-child(2){ padding-right: 0;}
-#customer-info-wp .form-row .form-col input[type="text"], #customer-info-wp .form-row .form-col input[type="email"], #customer-info-wp .form-row .form-col input[type="tel"], #customer-info-wp .form-row:nth-child(3) .form-col textarea{
+#customer-info-wp .form-row .form-col{ width: 100%; padding-right: 30px;}
+/* #customer-info-wp .form-row .form-col:nth-child(2){ padding-right: 0;} */
+#customer-info-wp .form-row .form-col input[type="text"], #customer-info-wp .form-row .form-col input[type="email"], #customer-info-wp .form-row .form-col input[type="tel"], #customer-info-wp .form-row:nth-child(3) .form-col textarea, #customer-info-wp .form-row .form-col select {
     width: 100%;
     padding: 6px 12px;
     border: 1px solid #cccccc;
 }
-#customer-info-wp .form-row:nth-child(3) .form-col { width: 100%; padding-right: 0;}
-#customer-info-wp .form-row:nth-child(3) .form-col textarea{ height: 150px;}
+/* #customer-info-wp .form-row:nth-child(3) .form-col { width: 100%; padding-right: 0;}
+#customer-info-wp .form-row:nth-child(3) .form-col textarea{ height: 150px;} */
 #customer-info-wp .form-row .form-col input[type="text"]:focus, #customer-info-wp .form-row .form-col input[type="email"]:focus, #customer-info-wp .form-row .form-col input[type="tel"]:focus, #customer-info-wp .form-row:nth-child(3) .form-col textarea:focus{
     border: 1px solid #777;
 }

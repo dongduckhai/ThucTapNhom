@@ -84,3 +84,14 @@
     content: '\f105';
 }
 #list-related-wp{ padding-top: 50px;}
+div.detail h3{
+    display: block;
+    font-size: 24px;
+    font-weight: normal;
+    line-height: normal;
+    font-family: "Roboto Regular";
+    padding-bottom: 10px;
+}
+div.detail ul{
+    list-style: square;
+}

@@ -1,8 +1,8 @@
 /*DETAIL PRODUCT*/
 #detail-product-wp .thumb-wp, #detail-product-wp .thumb-respon-wp{ width: 42%;}
 #detail-product-wp .thumb-respon-wp{ border: 1px solid #c7c7c7;}
-#detail-product-wp .info{ 
-    width: 58%; 
+#detail-product-wp .info{
+    width: 58%;
     padding-left: 25px;
 }
 #detail-product-wp .section-detail, #post-product-wp .section-detail{background: #fff; padding: 15px;}
@@ -11,8 +11,8 @@
 #detail-product-wp .owl-carousel .owl-item{ padding: 0px 4px;}
 #detail-product-wp .owl-carousel .owl-item a{ display: block; }
 #detail-product-wp .owl-controls{ position: relative;}
-#detail-product-wp .owl-controls .owl-buttons div{ 
-    position: absolute; 
+#detail-product-wp .owl-controls .owl-buttons div{
+    position: absolute;
     bottom: 42px;
 }
 #detail-product-wp .owl-controls .owl-buttons div.owl-next{ right: 0px;}
@@ -85,6 +85,7 @@
     border: 1px solid #F00;
 }
 #detail-product-wp .add-cart{
+    width: 40%;
     display: inline-block;
     padding: 10px 30px;
     font-size: 16px;
