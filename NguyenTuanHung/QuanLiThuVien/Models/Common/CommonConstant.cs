@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using QuanLiThuVien.Areas.ADMIN.Models;
 using QuanLiThuVien.Models.ViewModel;
 namespace QuanLiThuVien.Models.Common
 {
@@ -12,7 +13,7 @@ namespace QuanLiThuVien.Models.Common
         public static string SESSION_CREDENTIALS = "SESSION_CREDENTIALS";
         public static string CartSession = "CartSession";
         public static TaikhoanLoginModel USERNAME;
-
+        public static AdminLogin ADMINNAME;
         public static string CurrentCulture { set; get; }
     }
 }

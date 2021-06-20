@@ -1,5 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <SSDTUnitTestPath Condition="'$(SSDTUnitTestPath)' == ''">$(VsInstallRoot)\Common7\IDE\Extensions\Microsoft\SQLDB</SSDTUnitTestPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SSDTPath Condition="'$(SSDTPath)' == ''">$(VsInstallRoot)\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\130</SSDTPath>
+  </PropertyGroup>
   <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -53,6 +59,12 @@
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Configuration.ConfigurationBuilders.Base, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Configuration.ConfigurationBuilders.Base.2.0.0\lib\Net471\Microsoft.Configuration.ConfigurationBuilders.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Configuration.ConfigurationBuilders.UserSecrets, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Configuration.ConfigurationBuilders.UserSecrets.2.0.0\lib\Net471\Microsoft.Configuration.ConfigurationBuilders.UserSecrets.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
@@ -143,9 +155,11 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\ADMIN\ADMINAreaRegistration.cs" />
+    <Compile Include="Areas\ADMIN\Controllers\ActioneResult.cs" />
     <Compile Include="Areas\ADMIN\Controllers\HomeAdminController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\LoginController.cs" />
     <Compile Include="Areas\ADMIN\Controllers\SachController.cs" />
+    <Compile Include="Areas\ADMIN\Models\LoginModel.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
@@ -154,6 +168,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Common\AdminLogin.cs" />
     <Compile Include="Models\Common\CommonConstant.cs" />
     <Compile Include="Models\Entities\Admin.cs" />
     <Compile Include="Models\Entities\DocGia.cs" />
@@ -163,6 +178,7 @@
     <Compile Include="Models\Entities\NhaXuatBan.cs" />
     <Compile Include="Models\Entities\QuanLiThuVienDb.cs" />
     <Compile Include="Models\Entities\Sach.cs" />
+    <Compile Include="Models\Entities\sysdiagram.cs" />
     <Compile Include="Models\Entities\TacGia.cs" />
     <Compile Include="Models\Entities\TheLoai.cs" />
     <Compile Include="Models\Entities\TheThuVien.cs" />
@@ -178,6 +194,7 @@
     <Compile Include="Models\ViewModel\SachDAO.cs" />
     <Compile Include="Models\ViewModel\TaikhoanLoginModel.cs" />
     <Compile Include="Models\ViewModel\TaikhoanModel.cs" />
+    <Compile Include="Models\ViewModel\UserDao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -323,6 +340,119 @@
     <Content Include="Areas\ADMIN\Assets\assets\xchart\d3.v3.min.js" />
     <Content Include="Areas\ADMIN\Assets\assets\xchart\xcharts.css" />
     <Content Include="Areas\ADMIN\Assets\assets\xchart\xcharts.min.js" />
+    <Content Include="Areas\ADMIN\Assets\Content\audio\Ami_Raji.mp3" />
+    <Content Include="Areas\ADMIN\Assets\Content\bootstrap-theme.css" />
+    <Content Include="Areas\ADMIN\Assets\Content\bootstrap-theme.min.css" />
+    <Content Include="Areas\ADMIN\Assets\Content\bootstrap.css" />
+    <Content Include="Areas\ADMIN\Assets\Content\bootstrap.min.css" />
+    <Content Include="Areas\ADMIN\Assets\Content\css\animate.css" />
+    <Content Include="Areas\ADMIN\Assets\Content\css\bootstrap.min.css" />
+    <Content Include="Areas\ADMIN\Assets\Content\css\chosen-sprite.png" />
+    <Content Include="Areas\ADMIN\Assets\Content\css\chosen.min.css" />
+    <Content Include="Areas\ADMIN\Assets\Content\css\flexslider.css" />
+    <Content Include="Areas\ADMIN\Assets\Content\css\font-awesome.min.css" />
+    <Content Include="Areas\ADMIN\Assets\Content\css\meanmenu.min.css" />
+    <Content Include="Areas\ADMIN\Assets\Content\css\owl.carousel.css" />
+    <Content Include="Areas\ADMIN\Assets\Content\css\responsive.css" />
+    <Content Include="Areas\ADMIN\Assets\Content\css\style.css" />
+    <Content Include="Areas\ADMIN\Assets\Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Areas\ADMIN\Assets\Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\1.png" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\2.png" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\author\1.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\author\2.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\author\3.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\author\4.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\banner\1.png" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\banner\10.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\banner\11.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\banner\13.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\banner\19.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\banner\2.png" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\banner\22.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\banner\25.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\banner\26.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\banner\27.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\banner\3.png" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\banner\31.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\banner\32.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\banner\33.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\banner\38.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\banner\4.png" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\banner\5.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\banner\6.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\banner\7.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\banner\8.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\banner\9.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\blog\1.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\blog\2.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\blog\3.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\blog\4.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\blog\6.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\cart\1.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\cart\2.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\favicon.png" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\flag\1.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\flag\1.png" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\flex\1.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\flex\2.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\flex\5.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\icon-img\select-2.png" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\icon-img\select.png" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\logo\logo.png" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\logo\logoSach.png" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\post\1.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\post\2.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\post\3.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\post\4.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\product\1984.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\product\animalfarm.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\product\chaytronmattroi.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\product\chenhvenh25.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\product\chieclacuoicung.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\product\chotoixinmotvedituoitho.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\product\chuyenvenhungnguoicodon.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\product\cogaidentuhomqua.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\product\dacnhantam.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\product\doicallboy.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\product\kafka.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\product\kafkaShore.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\product\khocgiuasaigon.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\product\lacgiuaniemdau.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\product\mynhan.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\product\nguoicuconthuong.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\product\nguoncoi.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\product\songgio.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\product\thienacvasmartphone.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\product\toilabeto.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\product\toinoigikhinoivechaybo.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\product\toithayhoavangtrencoxanh.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\slider\1.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\slider\2.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\slider\3.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\slider\4.png" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\team\1.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\team\2.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\team\3.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\img\team\4.jpg" />
+    <Content Include="Areas\ADMIN\Assets\Content\js\ajax-mail.js" />
+    <Content Include="Areas\ADMIN\Assets\Content\js\bootstrap.min.js" />
+    <Content Include="Areas\ADMIN\Assets\Content\js\chosen.jquery.min.js" />
+    <Content Include="Areas\ADMIN\Assets\Content\js\Controller\CartItem.js" />
+    <Content Include="Areas\ADMIN\Assets\Content\js\jquery.countdown.min.js" />
+    <Content Include="Areas\ADMIN\Assets\Content\js\jquery.counterup.min.js" />
+    <Content Include="Areas\ADMIN\Assets\Content\js\jquery.flexslider.js" />
+    <Content Include="Areas\ADMIN\Assets\Content\js\jquery.meanmenu.js" />
+    <Content Include="Areas\ADMIN\Assets\Content\js\jquery.parallax-1.1.3.js" />
+    <Content Include="Areas\ADMIN\Assets\Content\js\main.js" />
+    <Content Include="Areas\ADMIN\Assets\Content\js\owl.carousel.min.js" />
+    <Content Include="Areas\ADMIN\Assets\Content\js\plugins.js" />
+    <Content Include="Areas\ADMIN\Assets\Content\js\vendor\jquery-1.12.0.min.js" />
+    <Content Include="Areas\ADMIN\Assets\Content\js\vendor\modernizr-2.8.3.min.js" />
+    <Content Include="Areas\ADMIN\Assets\Content\js\waypoints.min.js" />
+    <Content Include="Areas\ADMIN\Assets\Content\js\wow.min.js" />
+    <Content Include="Areas\ADMIN\Assets\Content\PagedList.css" />
+    <Content Include="Areas\ADMIN\Assets\Content\Site.css" />
     <Content Include="Areas\ADMIN\Assets\css\bootstrap-reset.css" />
     <Content Include="Areas\ADMIN\Assets\css\bootstrap.min.css" />
     <Content Include="Areas\ADMIN\Assets\css\gallery.css" />
@@ -637,6 +767,21 @@
     <Content Include="Areas\ADMIN\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\ADMIN\Views\web.config" />
     <Content Include="Areas\ADMIN\Views\Sach\Edit.cshtml" />
+    <Content Include="Areas\ADMIN\Assets\Content\bootstrap-theme.css.map" />
+    <Content Include="Areas\ADMIN\Assets\Content\bootstrap-theme.min.css.map" />
+    <Content Include="Areas\ADMIN\Assets\Content\bootstrap.css.map" />
+    <Content Include="Areas\ADMIN\Assets\Content\bootstrap.min.css.map" />
+    <Content Include="Areas\ADMIN\Assets\Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Areas\ADMIN\Assets\Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Areas\ADMIN\Assets\Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Areas\ADMIN\Assets\Content\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Areas\ADMIN\Assets\Content\fonts\FontAwesome.otf" />
+    <Content Include="Areas\ADMIN\Assets\Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Areas\ADMIN\Assets\Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Areas\ADMIN\Assets\Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Areas\ADMIN\Views\Login\View.cshtml" />
+    <Content Include="Areas\ADMIN\Views\Login\Login.cshtml" />
+    <Content Include="Areas\ADMIN\Views\Shared\_Layout1.cshtml" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />
     <Content Include="Scripts\jquery-3.5.1.min.js" />
@@ -687,9 +832,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\ADMIN\Models\" />
-    <Folder Include="Areas\ADMIN\Views\Login\" />
+    <Folder Include="Areas\ADMIN\Assets\Content\css\github.com\necolas\" />
+    <Folder Include="Areas\ADMIN\Views\TaiKhoan\" />
     <Folder Include="Content\css\github.com\necolas\" />
+    <Folder Include="Views\AdminLogin\" />
     <Folder Include="Views\Default\" />
     <Folder Include="Views\Menu\" />
   </ItemGroup>
@@ -697,7 +843,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
@@ -706,6 +851,21 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup Condition="$(VisualStudioVersion) == '16.0'">
+    <Reference Include="Microsoft.Data.Tools.Schema.Sql, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>$(SSDTPath)\Microsoft.Data.Tools.Schema.Sql.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.Tools.Schema.Sql.UnitTesting, Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>$(SSDTUnitTestPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.Tools.Schema.Sql.UnitTestingAdapter, Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>$(SSDTUnitTestPath)\Microsoft.Data.Tools.Schema.Sql.UnitTestingAdapter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -744,6 +904,11 @@
     <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.targets'))" />
   </Target>
   <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" />
+  <PropertyGroup>
+    <SsdtUnitTestVersion>3.1</SsdtUnitTestVersion>
+  </PropertyGroup>
+  <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="$(VisualStudioVersion) != '15.0' And '$(SQLDBExtensionsRefPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="$(VisualStudioVersion) != '15.0' And '$(SQLDBExtensionsRefPath)' == ''" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

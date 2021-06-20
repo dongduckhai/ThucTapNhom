@@ -18,6 +18,7 @@ namespace QuanLiThuVien.Models.Entities
         public virtual DbSet<NhanVien_History> NhanVien_History { get; set; }
         public virtual DbSet<NhaXuatBan> NhaXuatBans { get; set; }
         public virtual DbSet<Sach> Saches { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TacGia> TacGias { get; set; }
         public virtual DbSet<TheLoai> TheLoais { get; set; }
         public virtual DbSet<TheThuVien> TheThuViens { get; set; }

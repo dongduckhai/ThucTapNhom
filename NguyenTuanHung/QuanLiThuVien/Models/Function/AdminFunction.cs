@@ -19,14 +19,14 @@ namespace QuanLiThuVien.Models.Function
         }
         public int Login(string name, string pass)
         {
-            var result = db.Admins.FirstOrDefault(x => x.name == name);
+            var result = db.Admins.FirstOrDefault(x => x.UserName == name);
             if (result == null)
             {
                 return 0;
             }
             else
             {
-                if (result.pass == pass)
+                if (result.Passwword == pass)
                     return 1;
                 else return 0;
             }
@@ -38,15 +38,15 @@ namespace QuanLiThuVien.Models.Function
         }*/
         public Admin GetById(string name)
         {
-            return db.Admins.SingleOrDefault(x => x.name == name);
+            return db.Admins.SingleOrDefault(x => x.UserName == name);
         }
         public int GetId(string name)
         {
-            return db.Admins.SingleOrDefault(x => x.name == name).id;
+            return db.Admins.SingleOrDefault(x => x.UserName == name).id;
         }
         public bool Checkname(string name)
         {
-            return db.Admins.Count(x => x.name == name) > 0;
+            return db.Admins.Count(x => x.UserName == name) > 0;
         }
         public int SL_KH()
         {

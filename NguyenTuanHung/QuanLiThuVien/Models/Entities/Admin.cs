@@ -12,9 +12,9 @@ namespace QuanLiThuVien.Models.Entities
         public int id { get; set; }
 
         [StringLength(50)]
-        public string name { get; set; }
+        public string UserName { get; set; }
 
         [StringLength(50)]
-        public string pass { get; set; }
+        public string Passwword { get; set; }
     }
 }
