@@ -49,26 +49,34 @@
     width: 100%;
     margin-bottom: 15px;
 }
-#filter-product-wp .section-detail table thead tr td{ 
-    font-size: 16px; 
-    color: #000; 
+#filter-product-wp .section-detail table thead tr td{
+    font-size: 16px;
+    color: #000;
     padding-bottom: 10px;
 }
 #filter-product-wp .section-detail table tbody tr td{ padding-bottom: 5px;}
-#paging-wp{ text-align: center; margin-top: 25px;}
-#paging-wp .list-item{ display: inline-block;}
-#paging-wp .list-item li
-{ 
-    float: left; margin-right: 5px;
+
+/* pagging */
+.section nav{
+    text-align: center;
+    margin-top: 25px;
 }
-#paging-wp .list-item li:last-child{ margin-right: 0;}
-#paging-wp .list-item li a{
+ul.pagination{
+    display: inline-block;
+    clear: both;
+    list-style: none;
+}
+li.page-item{
+    float: left;
+    margin-right: 5px;
+}
+a.page-link, li.page-item.disabled span{
     background: #ababab;
     padding: 8px 12px;
     color: #fff;
 }
-#paging-wp .list-item li a:hover{ background: #868686;}
-#paging-wp .list-item li a.active
-{
+li.page-item.active span{
     background: #ec4d4d;
+    padding: 8px 12px;
+    color: #fff;
 }
