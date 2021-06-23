@@ -29,7 +29,7 @@
                     <div class="section-detail clearfix">
                         <div class="thumb-wp fl-left">
                             <a href="" title="" id="main-thumb">
-                                <img style="max-width:350px;height:auto;" id="zoom" src="{{ url($product->thumbnail) }}"
+                                <img style="width:350px;height:auto;" id="zoom" src="{{ url($product->thumbnail) }}"
                                     data-zoom-image="{{ url($product->thumbnail) }}" />
                             </a>
                         </div>

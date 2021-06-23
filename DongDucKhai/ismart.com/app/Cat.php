@@ -9,7 +9,7 @@ class Cat extends Model
 {
     use SoftDeletes;
     protected $fillable = [
-        'name'
+        'name','status'
     ];
     function brand()
     {

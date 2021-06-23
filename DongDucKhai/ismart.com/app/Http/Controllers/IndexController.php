@@ -74,8 +74,7 @@ class IndexController extends Controller
         $brand = Brand::find($id);
         $cat = $brand->cat;
         //Lấy danh sách sản phẩm
-        if ($request->input('sort'))
-        {
+        if ($request->input('sort')) {
             $sort = $request->input('sort');
             if ($sort == 1) {
                 $products = Product::where([
@@ -117,7 +116,7 @@ class IndexController extends Controller
             ])->paginate(8);
         }
 
-        return view('productByBrand', compact('products', 'cats', 'hot_products', 'brand', 'cat','sort'));
+        return view('productByBrand', compact('products', 'cats', 'hot_products', 'brand', 'cat', 'sort'));
     }
     //====================================Products======================================
     function products()
@@ -226,8 +225,7 @@ class IndexController extends Controller
                 ->get();
             //danh sách tìm kiếm
             $keyword = $request->input('keyword');
-            if ($request->input('sort'))
-            {
+            if ($request->input('sort')) {
                 $sort = $request->input('sort');
                 if ($sort == 1) {
                     $search_products = Product::where([

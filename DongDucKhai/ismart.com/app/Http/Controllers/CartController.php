@@ -66,6 +66,15 @@ class CartController extends Controller
         return redirect()->route('cart.show');
     }
 
+    /*public function update(Request $request)
+    {
+        $data = $request->get('qty');
+        foreach ($data as $k=>$v)
+        {
+            Cart::update($k, $v);
+        }
+        return redirect('cart/show');
+    }  */
     function update()
     {
         //Lấy rowId và số lượng thay đổi

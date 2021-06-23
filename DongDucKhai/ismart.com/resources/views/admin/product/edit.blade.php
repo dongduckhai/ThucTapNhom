@@ -32,10 +32,20 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="file">Ảnh</label>
+                        <label for="file">Ảnh tiêu đề</label>
                         <input class="form-control-file mb-2" type="file" name="file" id="thumbnail">
                         <img src="{{ url($product->thumbnail) }}" style="width: 20%">
                         @error('file')
+                            <small class="text-danger font-italic">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="photos">Ảnh chi tiết</label>
+                        <input class="form-control-file mb-2" type="file" name="photos[]" multiple id="photos">
+                        @foreach ($img_list as $img)
+                        <img src="{{ url($product->thumbnail) }}" style="width:10%;margin-right:10px">
+                        @endforeach
+                        @error('photos')
                             <small class="text-danger font-italic">{{ $message }}</small>
                         @enderror
                     </div>

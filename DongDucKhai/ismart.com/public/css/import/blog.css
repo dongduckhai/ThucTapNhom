@@ -7,7 +7,6 @@
     margin-bottom: 20px;
 }
 #list-blog-wp .list-item li{ padding-bottom: 30px;}
-#list-blog-wp .list-item li:last-child{ padding-bottom: 0;}
 #list-blog-wp .thumb{ width: 30%;}
 #list-blog-wp .info{ width: 70%; padding-left: 25px;}
 #list-blog-wp .info .title{

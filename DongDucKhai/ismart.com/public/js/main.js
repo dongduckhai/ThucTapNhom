@@ -15,7 +15,17 @@ $(document).ready(function () {
     });
 
 //  ZOOM PRODUCT DETAIL
-    $("#zoom").elevateZoom({gallery: 'list-thumb', cursor: 'pointer', galleryActiveClass: 'active', imageCrossfade: true, loadingIcon: 'http://www.elevateweb.co.uk/spinner.gif'});
+    $("#zoom").elevateZoom({
+        /* gallery: 'list-thumb',
+        cursor: 'pointer',
+        galleryActiveClass: 'active',
+        imageCrossfade: true,
+        loadingIcon: 'http://www.elevateweb.co.uk/spinner.gif' */
+        zoomWindowFadeIn: 500,
+        zoomWindowFadeOut: 500,
+        lensFadeIn: 500,
+        lensFadeOut: 500
+    });
 
 //  LIST THUMB
     var list_thumb = $('#list-thumb');

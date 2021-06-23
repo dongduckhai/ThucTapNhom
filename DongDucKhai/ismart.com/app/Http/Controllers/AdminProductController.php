@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Brand;
 use App\Product;
+use App\ProductImg;
 use App\Cat;
 
 class AdminProductController extends Controller
@@ -161,7 +162,8 @@ class AdminProductController extends Controller
                 'desc' => 'required|string|max:255',
                 'details' => 'required',
                 'brand_id' => 'required',
-                'status' => 'required'
+                'status' => 'required',
+                'photos' => 'image',
             ],
             [
                 'required' => 'Không được để trống :attribute',
@@ -169,7 +171,6 @@ class AdminProductController extends Controller
                 'image' => ':attribute phải là ảnh',
                 'string' => ':attribute phải có chữ',
                 'integer' => ':attribute phải là số'
-
             ],
             [
                 'file' => 'Ảnh tiêu đề',
@@ -192,7 +193,7 @@ class AdminProductController extends Controller
         /* Dựa vào brand_id tìm cat_id */
         $brand_id = $request->input('brand_id');
         $brand = Brand::find($brand_id);
-        Product::create([
+        $product = Product::create([
             'thumbnail' => $thumbnail,
             'price' => $request->input('price'),
             'old_price' => $request->input('old_price'),
@@ -204,7 +205,19 @@ class AdminProductController extends Controller
             'status' => $request->input('status'),
             'hot' => $request->input('hot'),
         ]);
-        //phải thêm các trường này vào model product protected $fillable
+        if ($request->hasFile('photos')) {
+            $files = $request->file('photos');
+            foreach($files as $file)
+            {
+                $name = $file->getClientOriginalName();
+                $file->move('public/uploads', $name);
+                $photoName = 'public/uploads/' . $name;
+                ProductImg::create([
+                    'product_id' => $product->id,
+                    'filename' => $photoName,
+                ]);
+            }
+        }
         return redirect('admin/product/list')->with('status', 'Thêm sản phẩm mới thành công');
     }
     //====================Xóa===========================
@@ -225,7 +238,8 @@ class AdminProductController extends Controller
     {
         $brand_list = Brand::all();
         $product = Product::withTrashed()->find($id);
-        return view('admin.product.edit', compact('product', 'brand_list'));
+        $img_list = ProductImg::all()->where('product_id','=',"{$id}");
+        return view('admin.product.edit', compact('product', 'brand_list','img_list'));
     }
     function update(Request $request, $id)
     {
