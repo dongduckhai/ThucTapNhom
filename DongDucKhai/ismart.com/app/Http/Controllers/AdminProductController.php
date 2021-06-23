@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Brand;
 use App\Product;
-use App\ProductImg;
 use App\Cat;
 
 class AdminProductController extends Controller
@@ -157,20 +156,21 @@ class AdminProductController extends Controller
         $request->validate(
             [
                 'file' => 'required|image',
-                'price' => 'required|integer',
+                'price' => 'required|integer|min:0',
                 'name' => 'required|string|max:255',
                 'desc' => 'required|string|max:255',
                 'details' => 'required',
                 'brand_id' => 'required',
-                'status' => 'required',
-                'photos' => 'image',
+                'status' => 'required'
             ],
             [
                 'required' => 'Không được để trống :attribute',
                 'max' => ':attribute có độ dài tối đa :max ký tự',
                 'image' => ':attribute phải là ảnh',
                 'string' => ':attribute phải có chữ',
-                'integer' => ':attribute phải là số'
+                'integer' => ':attribute phải là số',
+                'min' => ':attribute phải > 0'
+
             ],
             [
                 'file' => 'Ảnh tiêu đề',
@@ -193,7 +193,7 @@ class AdminProductController extends Controller
         /* Dựa vào brand_id tìm cat_id */
         $brand_id = $request->input('brand_id');
         $brand = Brand::find($brand_id);
-        $product = Product::create([
+        Product::create([
             'thumbnail' => $thumbnail,
             'price' => $request->input('price'),
             'old_price' => $request->input('old_price'),
@@ -205,19 +205,7 @@ class AdminProductController extends Controller
             'status' => $request->input('status'),
             'hot' => $request->input('hot'),
         ]);
-        if ($request->hasFile('photos')) {
-            $files = $request->file('photos');
-            foreach($files as $file)
-            {
-                $name = $file->getClientOriginalName();
-                $file->move('public/uploads', $name);
-                $photoName = 'public/uploads/' . $name;
-                ProductImg::create([
-                    'product_id' => $product->id,
-                    'filename' => $photoName,
-                ]);
-            }
-        }
+        //phải thêm các trường này vào model product protected $fillable
         return redirect('admin/product/list')->with('status', 'Thêm sản phẩm mới thành công');
     }
     //====================Xóa===========================
@@ -238,15 +226,14 @@ class AdminProductController extends Controller
     {
         $brand_list = Brand::all();
         $product = Product::withTrashed()->find($id);
-        $img_list = ProductImg::all()->where('product_id','=',"{$id}");
-        return view('admin.product.edit', compact('product', 'brand_list','img_list'));
+        return view('admin.product.edit', compact('product', 'brand_list'));
     }
     function update(Request $request, $id)
     {
         $request->validate(
             [
                 'file' => 'image',
-                'price' => 'required|integer',
+                'price' => 'required|integer|min:0',
                 'name' => 'required|string|max:255',
                 'desc' => 'required|string|max:255',
                 'details' => 'required',
@@ -258,7 +245,8 @@ class AdminProductController extends Controller
                 'max' => ':attribute có độ dài tối đa :max ký tự',
                 'image' => ':attribute phải là ảnh',
                 'string' => ':attribute phải có chữ',
-                'integer' => ':attribute phải là số'
+                'integer' => ':attribute phải là số',
+                'min' => ':attribute phải > 0'
 
             ],
             [

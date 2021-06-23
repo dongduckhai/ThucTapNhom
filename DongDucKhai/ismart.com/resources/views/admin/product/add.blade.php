@@ -30,16 +30,9 @@
                     @enderror
                 </div>
                 <div class="form-group">
-                    <label for="file">Ảnh tiêu đề</label>
+                    <label for="file">Ảnh</label>
                     <input class="form-control-file mb-2" type="file" name="file" id="thumbnail">
                 @error('file')
-                    <small class="text-danger font-italic">{{$message}}</small>
-                @enderror
-                </div>
-                <div class="form-group">
-                    <label for="photos">Ảnh chi tiết</label>
-                    <input class="form-control-file mb-2" type="file" name="photos[]" multiple id="photos">
-                @error('photos')
                     <small class="text-danger font-italic">{{$message}}</small>
                 @enderror
                 </div>
