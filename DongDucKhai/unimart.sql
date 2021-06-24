@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 09, 2021 lúc 07:01 PM
+-- Thời gian đã tạo: Th6 24, 2021 lúc 11:06 AM
 -- Phiên bản máy phục vụ: 10.4.19-MariaDB
 -- Phiên bản PHP: 7.4.19
 
@@ -31,29 +31,22 @@ CREATE TABLE `brands` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `cat_id` bigint(20) UNSIGNED DEFAULT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` enum('1','2','3') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` enum('1','2') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `brands`
 --
 
-INSERT INTO `brands` (`id`, `cat_id`, `name`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 'iphone', '2', '2021-05-25 10:50:28', '2021-06-02 16:16:24', NULL),
-(2, 1, 'SamSung', '2', '2021-05-25 10:58:27', '2021-05-25 13:39:23', NULL),
-(3, 1, 'Oppo', '2', '2021-05-25 10:58:40', '2021-05-25 14:02:38', NULL),
-(4, 1, 'Vsmart', '2', '2021-05-25 11:00:10', '2021-05-25 13:39:23', NULL),
-(5, 2, 'Acer', '2', '2021-05-25 11:00:32', '2021-05-25 13:39:23', NULL),
-(6, 2, 'Asus', '2', '2021-05-25 11:00:48', '2021-05-25 13:39:36', NULL),
-(7, 2, 'Dell', '2', '2021-05-25 11:06:54', '2021-05-25 13:39:36', NULL),
-(8, 2, 'HP', '2', '2021-05-25 11:07:15', '2021-05-25 13:39:36', NULL),
-(9, 1, 'test', '1', '2021-05-25 11:41:16', '2021-06-02 16:20:29', NULL),
-(10, 2, 'test2', '3', '2021-05-25 11:43:14', '2021-06-02 15:41:54', '2021-06-02 15:41:54'),
-(11, 2, 'test3', '1', '2021-05-25 11:52:41', '2021-06-02 15:41:42', NULL),
-(12, 2, 'test4', '3', '2021-05-25 14:03:37', '2021-06-02 16:20:05', '2021-06-02 16:20:05');
+INSERT INTO `brands` (`id`, `cat_id`, `name`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 'iphone', '2', '2021-05-25 10:50:28', '2021-06-02 16:16:24'),
+(2, 1, 'SamSung', '2', '2021-05-25 10:58:27', '2021-06-23 15:02:18'),
+(5, 2, 'Acer', '2', '2021-05-25 11:00:32', '2021-05-25 13:39:23'),
+(6, 2, 'Asus', '2', '2021-05-25 11:00:48', '2021-05-25 13:39:36'),
+(7, 2, 'Dell', '2', '2021-05-25 11:06:54', '2021-05-25 13:39:36'),
+(8, 2, 'HP', '2', '2021-05-25 11:07:15', '2021-06-23 16:44:28');
 
 -- --------------------------------------------------------
 
@@ -64,18 +57,18 @@ INSERT INTO `brands` (`id`, `cat_id`, `name`, `status`, `created_at`, `updated_a
 CREATE TABLE `cats` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` enum('1','2') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `cats`
 --
 
-INSERT INTO `cats` (`id`, `name`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Smartphone', NULL, NULL, NULL),
-(2, 'Laptop', NULL, NULL, NULL);
+INSERT INTO `cats` (`id`, `name`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Smartphone', '1', '2021-05-25 10:50:28', '2021-06-19 03:53:50'),
+(2, 'Laptop', '1', '2021-05-25 10:50:28', '2021-06-19 03:53:50');
 
 -- --------------------------------------------------------
 
@@ -853,7 +846,6 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (13, '2021_05_23_035935_add_soft_delete_to_cats_table', 10),
 (18, '2021_05_25_102650_create_brands_table', 13),
 (19, '2021_05_25_102104_create_products_table', 14),
-(20, '2021_05_25_174647_add_soft_delete_to_brand', 15),
 (21, '2021_05_25_174832_add_softt_delete_to_product', 16),
 (23, '2021_05_26_213427_create_orders_table', 17),
 (24, '2021_05_27_162420_create_sliders_table', 17),
@@ -889,11 +881,7 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `code`, `name`, `phone`, `email`, `address`, `note`, `qty`, `total`, `payment`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(12, 'ISMART-OmhMtW31K', 'Đồng Đức Khải', '0948481932', 'dongduckhai308@gmail.com', 'Số nhà 1,Ngõ 115, Đường Văn Cao, Phường Trần Quang Khải, Thành phố Nam Định, Tỉnh Nam Định', NULL, 1, 13000000, '2', '1', '2021-06-01 10:48:41', '2021-06-02 16:50:16', NULL),
-(13, 'ISMART-1V8AdHsZ2', 'Phan Tấn Trung', '0988859692', 'phantrung@gmail.com', 'Số 113, Đường Xuân Thủy, Phường Nghĩa Tân, Quận Cầu Giấy, Thành phố Hà Nội', NULL, 1, 12000000, '2', '3', '2021-06-01 10:50:50', '2021-06-09 15:07:44', NULL),
-(14, 'ISMART-8joc1wFMf', 'Trần Huyền Trang', '0868873382', 'huyentrang@gmail.com', 'Tầng 16 toàn nhà ct25, Đường Nguyễn Trãi, Phường Lê Thanh Nghị, Thành phố Hải Dương, Tỉnh Hải Dương', NULL, 2, 44000000, '1', '2', '2021-06-01 10:52:43', '2021-06-02 16:48:48', NULL),
-(16, 'ISMART-TLntMMmjG', 'Bùi Thị Hồng Nhung', '01238476388', 'hongnhung@gmail.com', 'Số nhà 8, Ngõ 45, Trường Chinh, Phường Đồng Xuân, Thành phố Phúc Yên, Tỉnh Vĩnh Phúc', NULL, 1, 12000000, '2', '4', '2021-06-01 10:58:13', '2021-06-02 14:34:40', '2021-06-02 14:34:40'),
-(17, 'ISMART-MJyMdQ98m', 'Trịnh Xuân Sang', '09481736681', 'trinhsang@gmail.com', 'số 9, Ngõ 37, Đường Ngô Quyền, Xã Yên Sơn, Thành phố Tam Điệp, Tỉnh Ninh Bình', 'có người nhận hộ', 3, 36000000, '1', '2', '2021-06-02 13:40:19', '2021-06-02 14:35:20', NULL);
+(21, 'ISMART-us9ZcSbCd', '1111111111111111111111', '0948481932', 'dongduckhai308@gmail.com', '111111, Xã Hoàng Văn Thụ, Huyện Bình Gia, Tỉnh Lạng Sơn', NULL, 1, 22000000, '2', '4', '2021-06-24 07:48:28', '2021-06-24 08:38:41', '2021-06-24 08:38:41');
 
 -- --------------------------------------------------------
 
@@ -916,11 +904,7 @@ CREATE TABLE `order_details` (
 --
 
 INSERT INTO `order_details` (`id`, `product_id`, `qty`, `order_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(12, 6, 1, 12, NULL, NULL, NULL),
-(14, 1, 1, 13, NULL, NULL, NULL),
-(16, 5, 2, 14, NULL, NULL, NULL),
-(21, 1, 1, 16, NULL, NULL, NULL),
-(22, 1, 3, 17, NULL, NULL, NULL);
+(27, 5, 1, 21, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -943,13 +927,13 @@ CREATE TABLE `pages` (
 --
 
 INSERT INTO `pages` (`id`, `title`, `content`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'tiêu đề 1', '<p>content111</p>', '1', '2021-05-21 18:46:09', '2021-05-24 19:54:42', NULL),
-(2, 'tiêu đề 5', '<p>content11</p>', '1', '2021-05-21 18:46:45', '2021-05-23 20:36:18', NULL),
+(1, 'tiêu đề 1', '<p>content111</p>', '1', '2021-05-21 18:46:09', '2021-06-20 04:48:29', NULL),
+(2, 'tiêu đề 5', '<p>content11</p>', '1', '2021-05-21 18:46:45', '2021-06-19 03:47:54', NULL),
 (3, 'tiêu đề 6', '<p>content</p>', '1', '2021-05-21 19:41:13', '2021-05-21 19:41:48', NULL),
 (4, 'tiêu đề 9', '<p>contenttt</p>', '1', '2021-05-21 20:35:27', '2021-05-23 20:36:29', NULL),
 (5, 'tiêu đề 5', '<p>contenttt</p>', '1', '2021-05-21 20:35:27', '2021-05-23 20:36:29', NULL),
 (6, 'tiêu đề 6', '<p>contenttt</p>', '1', '2021-05-21 20:35:27', '2021-05-23 20:36:29', NULL),
-(7, 'tiêu đề 7', '<p>nội dung</p>', '2', '2021-06-04 03:06:26', '2021-06-04 03:07:36', '2021-06-04 03:07:36');
+(7, 'tiêu đề 7', '<p>nội dung</p>', '2', '2021-06-04 03:06:26', '2021-06-20 04:48:21', '2021-06-20 04:48:21');
 
 -- --------------------------------------------------------
 
@@ -1029,11 +1013,23 @@ INSERT INTO `products` (`id`, `thumbnail`, `price`, `old_price`, `name`, `desc`,
 (1, 'public/uploads/iphone-12-xanh-duong.jpg', 4000000, 6000000, 'test1', 'mô tả', '<p>nội dung</p>', 1, 1, '2', 'On', '2021-05-26 03:20:50', '2021-06-04 16:32:59', NULL),
 (5, 'public/uploads/acer-aspire-7-a715-42g.jpg', 22000000, NULL, 'test6', 'mô tả', '<p>content</p>', 5, 2, '2', 'On', '2021-05-26 10:04:43', '2021-06-04 16:32:59', NULL),
 (6, 'public/uploads/iphone-125gb.jpg', 13000000, 14000000, 'test7', '<p>m&ocirc; tả</p>', '<p>nội dung</p>', 1, 1, '2', 'On', '2021-05-28 12:30:49', '2021-06-04 16:32:59', NULL),
-(7, 'public/uploads/hp-348-g7-i5-9.jpg', 18000000, 19000000, 'test4', '<p>m&ocirc; tả</p>', '<p>nội dung</p>', 8, 2, '2', 'On', '2021-06-02 16:42:12', '2021-06-04 16:32:59', NULL),
-(8, 'public/uploads/vsmart-star-5.jpg', 8000000, 10000000, 'test7', '<p>m&ocirc; tả</p>', '<p>chi tiết</p>', 4, 1, '2', 'On', '2021-06-03 01:59:30', '2021-06-04 16:32:59', NULL),
+(7, 'public/uploads/hp-348-g7-i5-9.jpg', 18000000, 19000000, 'test4', '<p>m&ocirc; tả</p>', '<p>nội dung</p>', 8, 2, '1', NULL, '2021-06-02 16:42:12', '2021-06-23 17:11:20', NULL),
 (9, 'public/uploads/iphone-12-pro-max-vang.jpg', 9000000, NULL, 'test8', '<p>m&ocirc; tả</p>', '<p>nội dung</p>', 1, 1, '2', 'On', '2021-06-03 02:15:09', '2021-06-04 16:35:19', NULL),
-(10, 'public/uploads/iPhone_12_RED.jpg', 19000000, NULL, 'test10', '<p>m&ocirc; tả</p>', '<p>nội dung</p>', 2, 1, '2', 'On', '2021-06-04 15:56:28', '2021-06-04 16:35:19', NULL),
-(11, 'public/uploads/iPhone_12_RED.jpg', 4000000, NULL, 'test11', '<p>111111111111111111111</p>', '<p>222222222222222222222</p>', 1, 1, '1', NULL, '2021-06-05 13:43:25', '2021-06-05 14:17:22', NULL);
+(10, 'public/uploads/iPhone_12_RED.jpg', 19000000, NULL, 'test10', '<p>m&ocirc; tả</p>', '<p>nội dung</p>', 2, 1, '2', 'On', '2021-06-04 15:56:28', '2021-06-04 16:35:19', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `product_imgs`
+--
+
+CREATE TABLE `product_imgs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `filename` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -11940,6 +11936,13 @@ ALTER TABLE `products`
   ADD KEY `cat_id` (`cat_id`);
 
 --
+-- Chỉ mục cho bảng `product_imgs`
+--
+ALTER TABLE `product_imgs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_imgs_product_id_foreign` (`product_id`);
+
+--
 -- Chỉ mục cho bảng `provinces`
 --
 ALTER TABLE `provinces`
@@ -11984,13 +11987,13 @@ ALTER TABLE `wards`
 -- AUTO_INCREMENT cho bảng `brands`
 --
 ALTER TABLE `brands`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT cho bảng `cats`
 --
 ALTER TABLE `cats`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT cho bảng `districts`
@@ -12008,19 +12011,19 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT cho bảng `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT cho bảng `pages`
@@ -12038,7 +12041,13 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT cho bảng `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT cho bảng `product_imgs`
+--
+ALTER TABLE `product_imgs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT cho bảng `provinces`
@@ -12093,6 +12102,12 @@ ALTER TABLE `order_details`
 ALTER TABLE `products`
   ADD CONSTRAINT `products_brand_id_foreign` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`cat_id`) REFERENCES `cats` (`id`);
+
+--
+-- Các ràng buộc cho bảng `product_imgs`
+--
+ALTER TABLE `product_imgs`
+  ADD CONSTRAINT `product_imgs_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
 
 --
 -- Các ràng buộc cho bảng `users`
