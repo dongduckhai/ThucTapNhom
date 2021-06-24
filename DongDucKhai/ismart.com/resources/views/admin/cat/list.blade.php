@@ -18,8 +18,8 @@
                     <a href="{{ request()->fullUrlWithQuery(['status' => 'all','page'=> 1]) }}"
                         class="{{ $cat_active == 'all' ? 'text-danger' : 'text-dark' }}">Tất cả({{ $count[0] }})</a>
                     {{-- chèn vào input 1 giá trị 'status' --}}
-                    <a href="{{ request()->fullUrlWithQuery(['status' => 'trash','page'=> 1]) }}"
-                        class="{{ $cat_active == 'trash' ? 'text-danger' : 'text-dark' }}">Thùng rác({{ $count[1] }})</a>
+                    <a href="{{ request()->fullUrlWithQuery(['status' => 'wait','page'=> 1]) }}"
+                        class="{{ $cat_active == 'wait' ? 'text-danger' : 'text-dark' }}">Chờ duyệt({{ $count[1] }})</a>
                 </div>
                 <form action="{{ url('admin/cat/action') }}" method="">
                     <div class="form-action form-inline py-3">
@@ -66,19 +66,17 @@
                                                     Công khai
                                                 </span>
                                             @else
-                                                <span class="badge badge-secondary">
-                                                    Bị hủy
+                                                <span class="badge badge-warning">
+                                                    Chờ duyệt
                                                 </span>
                                             @endif
                                         </td>
                                         <td>{{ date_format($cat->created_at,"d/m/Y") }}</td>
                                         <td>
-                                            @if ($cat->status != '2')
                                             <a href="{{ route('cat.edit', $cat->id) }}"
                                                 class="btn btn-success btn-sm rounded-0 text-white" type="button"
                                                 data-toggle="tooltip" data-placement="top" title="Chỉnh sửa"><i
                                                     class="fa fa-edit"></i></a>
-                                            @endif
                                             <a class="btn btn-danger btn-sm rounded-0 text-white" type="button"
                                                 data-toggle="modal" data-target="#deleteModal{{$cat->id}}" data-placement="top"
                                                 title="Xóa">

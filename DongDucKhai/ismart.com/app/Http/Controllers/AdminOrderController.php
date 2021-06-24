@@ -127,7 +127,8 @@ class AdminOrderController extends Controller
         //Dropdown act_list
         $act_list = [
             'onTheWay' => 'Giao hàng',
-            'complete' => 'Hoàn thành'
+            'complete' => 'Hoàn thành',
+            'delete' => 'Hủy'
         ];
         //Danh sách dựa theo status
         if ($request->input('status'))
@@ -146,7 +147,7 @@ class AdminOrderController extends Controller
             }
             if ($status == 'wait') {
                 $act_list = [
-                    'delete' => 'Chuyển thùng rác',
+                    'delete' => 'Hủy',
                     'onTheWay' => 'Giao hàng'
                 ];
                 $orders = Order::where($data)
@@ -157,7 +158,7 @@ class AdminOrderController extends Controller
             }
             if ($status == 'onTheWay') {
                 $act_list = [
-                    'delete' => 'Chuyển thùng rác',
+                    'delete' => 'Hủy',
                     'complete' => 'Hoàn thành'
                 ];
                 $orders = Order::where($data)

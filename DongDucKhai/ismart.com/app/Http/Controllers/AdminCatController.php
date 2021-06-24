@@ -24,43 +24,47 @@ class AdminCatController extends Controller
         }
         //Dropdown menu
         $act_list = [
-            'delete' => 'Xóa tạm thời',
+            'changeStatus' => 'Duyệt',
         ];
         if ($request->input('status')) {
             $status = $request->input('status');
-            if ($status == 'trash') {
-                $act_list = [
-                    'restore' => 'Khôi phục',
-                    'forceDelete' => 'Xóa vĩnh viễn'
-                ];
-                $cats = Cat::onlyTrashed()
-                    ->where([
-                        ['name', 'LIKE', "%{$keyword}%"]
-                    ])
-                    ->paginate(5);
-                $cat_active = 'trash';
-                //Trang đang active
+            if ($status == 'wait') {
+                $cats = Cat::where([
+                    ['name', 'LIKE', "%{$keyword}%"]
+                ])
+                    ->where('status', '=', '2')
+                    ->orderBy('status','desc')->paginate(5);
+                $cat_active = 'wait';
             }
             if ($status == 'all') {
                 $cats = Cat::where([
                     ['name', 'LIKE', "%{$keyword}%"]
-                ])->paginate(5);
+                ])
+                    ->orderBy('status','desc')
+                    ->paginate(5);
                 $cat_active = 'all';
             }
         } else {
             $status = 'all';
             $cats = Cat::where([
                 ['name', 'LIKE', "%{$keyword}%"]
-            ])->paginate(5);
+            ])
+                ->orderBy('status','desc')
+                ->paginate(5);
             $cat_active = 'all';
         }
-
         $count_all_cat = Cat::count();
-        $count_trash_cat = Cat::onlyTrashed()->count();
-        $count = [$count_all_cat, $count_trash_cat];
+        $count_wait_cat = Cat::where('status', '2')->count();
+        $count = [$count_all_cat, $count_wait_cat];
         //số lượng phần tử đang có và đang trong thùng rác
-        return view('admin.cat.list', compact('cats', 'count', 'act_list',
-         'cat_active','status','keyword'));
+        return view('admin.cat.list', compact(
+            'cats',
+            'count',
+            'act_list',
+            'cat_active',
+            'status',
+            'keyword'
+        ));
     }
     //===================Thêm mới=======================
     function add()
@@ -84,22 +88,15 @@ class AdminCatController extends Controller
         );
         Cat::create([
             'name' => $request->input('name'),
-            'status' => "1",
+            'status' => "2",
         ]);
         return redirect('admin/cat/list')->with('status', 'Thêm danh mục mới thành công');
     }
     //====================Xóa===========================
     function delete($id)
     {
-        if (Cat::find($id) != null) {
-            Cat::where('id', $id)->update(['status' => '2']);
-            Cat::find($id)->delete();
-            return redirect('admin/cat/list')->with('status', 'Đã thêm vào thùng rác');
-        } else {
-            $cat = Cat::onlyTrashed()->find($id);
-            $cat->forceDelete();
-            return redirect('admin/cat/list')->with('status', 'Xóa vĩnh viên thành công');
-        }
+        Cat::find($id)->delete();
+        return redirect('admin/cat/list')->with('status', 'Xóa vĩnh viễn thành công');
     }
     //===================Chỉnh sửa======================
     function edit($id)
@@ -134,26 +131,10 @@ class AdminCatController extends Controller
         if ($check_list) {
             if ($request->input('act') != 'NULL') {
                 $act = $request->input('act');
-                if ($act == 'delete') {
+                if ($act == 'changeStatus') {
                     Cat::whereIn('id', $check_list)
-                        ->update(['status' => '2']);
-                    Cat::destroy($check_list);
-                    return redirect('admin/cat/list')->with('status', 'Đã thêm vào thùng rác');
-                }
-                if ($act == 'restore') {
-                    Cat::onlyTrashed()
-                        ->whereIn('id', $check_list)
                         ->update(['status' => '1']);
-                    Cat::onlyTrashed()
-                        ->whereIn('id', $check_list)
-                        ->restore();
-                    return redirect('admin/cat/list')->with('status', 'Khôi phục dữ liệu thành công');
-                }
-                if ($act == 'forceDelete') {
-                    Cat::onlyTrashed()
-                        ->whereIn('id', $check_list)
-                        ->forceDelete();
-                    return redirect('admin/cat/list')->with('status', 'Xóa vĩnh viễn thành công');
+                    return redirect('admin/cat/list')->with('status', 'Duyệt thành công');
                 }
             } else {
                 return redirect('admin/cat/list')->with('alert', 'Hãy chọn 1 tác vụ');

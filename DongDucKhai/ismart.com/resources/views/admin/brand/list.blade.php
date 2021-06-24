@@ -26,16 +26,12 @@
             </div>
             <div class="card-body">
                 <div class="analytic">
-                    <a href="{{ request()->fullUrlWithQuery(['status' => 'all','page'=> 1]) }}"
+                    <a href="{{ request()->fullUrlWithQuery(['status' => 'all', 'page' => 1]) }}"
                         class="{{ $brand_active == 'all' ? 'text-danger' : 'text-dark' }}">Tất cả
                         ({{ $count[0] }})</a>
-                    {{-- chèn vào input 1 giá trị 'status' --}}
-                    <a href="{{ request()->fullUrlWithQuery(['status' => 'trash','page'=> 1]) }}"
-                        class="{{ $brand_active == 'trash' ? 'text-danger' : 'text-dark' }}">Thùng rác
-                        ({{ $count[1] }})</a>
-                    <a href="{{ request()->fullUrlWithQuery(['status' => 'wait','page'=> 1]) }}"
+                    <a href="{{ request()->fullUrlWithQuery(['status' => 'wait', 'page' => 1]) }}"
                         class="{{ $brand_active == 'wait' ? 'text-danger' : 'text-dark' }}">Chờ duyệt
-                        ({{ $count[2] }})</a>
+                        ({{ $count[1] }})</a>
                 </div>
                 <form action="{{ url('admin/brand/action') }}" method="">
                     <div class="form-action form-inline py-3">
@@ -84,23 +80,17 @@
                                                 <span class="badge badge-warning">
                                                     Chờ duyệt
                                                 </span>
-                                            @elseif ($brand->status == 2)
+                                            @else
                                                 <span class="badge badge-success">
                                                     Công khai
-                                                </span>
-                                            @else
-                                                <span class="badge badge-secondary">
-                                                    Bị hủy
                                                 </span>
                                             @endif
                                         </td>
                                         <td>
-                                            @if ($brand->status != '3')
                                             <a href="{{ route('brand.edit', $brand->id) }}"
                                                 class="btn btn-success btn-sm rounded-0 text-white" type="button"
                                                 data-toggle="tooltip" data-placement="top" title="Chỉnh sửa"><i
                                                     class="fa fa-edit"></i></a>
-                                            @endif
                                             <a class="btn btn-danger btn-sm rounded-0 text-white" type="button"
                                                 data-toggle="modal" data-target="#deleteModal{{ $brand->id }}"
                                                 data-placement="top" title="Xóa">
@@ -137,18 +127,11 @@
                             </tbody>
                         </table>
                 </form>
-                {{ $brands
-                    ->appends(
-                        ['status'=>$status,
-                        'keyword'=>$keyword,
-                        'cat_id'=>$cat_id,
-                        ]
-                    )
-                    ->links() }}
+                {{ $brands->appends(['status' => $status, 'keyword' => $keyword, 'cat_id' => $cat_id])->links() }}
             @else
                 <h4>Không tìm thấy kết quả nào</h4>
                 <img class="w-25" src="{{ url('public/images/search_not_found.png') }}" alt="">
-            @endif
+                @endif
             </div>
         </div>
     </div>
