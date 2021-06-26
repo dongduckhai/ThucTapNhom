@@ -28,7 +28,6 @@
 </head>
 
 <body>
-    </div>
     <div id="site">
         <div id="container">
             <div id="header-wp">
@@ -206,7 +205,6 @@
             swal("Thành công !", "{{ session('status') }}", "success", {
                 button: "OK",
             });
-
         </script>
     @endif
     @if (Session::has('thankYou'))
@@ -214,7 +212,6 @@
             swal("Mua hàng thành công !", "{{ session('thankYou') }}", "success", {
                 button: "OK",
             });
-
         </script>
     @endif
     {{-- Select quận huyện --}}
@@ -240,7 +237,6 @@
                 }
             });
         });
-
     </script>
     {{-- Gợi ý tìm kiếm --}}
     <script>
@@ -272,7 +268,6 @@
                 $('#data-list').fadeOut();
             });
         });
-
     </script>
 
 </body>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Brand;
 use App\Product;
 use App\Cat;
+use App\Order;
 
 class AdminProductController extends Controller
 {
@@ -21,8 +22,7 @@ class AdminProductController extends Controller
     {
         //Các trường tìm kiếm
         $cat_id = "";
-        if ($request->input('keyword'))
-        {
+        if ($request->input('keyword')) {
             $keyword = $request->input('keyword');
             if ($request->input('cat') == NULL || $request->input('cat') == 'all') {
                 $data = [
@@ -50,16 +50,16 @@ class AdminProductController extends Controller
             }
         }
         //lọc sản phẩm theo giá
-        if($request->input('min_price')) {
+        if ($request->input('min_price')) {
             $min_price = $request->input('min_price');
-            if($request->input('max_price')) {
+            if ($request->input('max_price')) {
                 $max_price = $request->input('max_price');
             } else {
                 $max_price = Product::withTrashed()->max('price');
             }
         } else {
             $min_price = 0;
-            if($request->input('max_price')) {
+            if ($request->input('max_price')) {
                 $max_price = $request->input('max_price');
             } else {
                 $max_price = Product::withTrashed()->max('price');
@@ -72,8 +72,7 @@ class AdminProductController extends Controller
             'changeStatus' => 'Duyệt'
         ];
         //Danh sách dựa theo status
-        if($request->input('status'))
-        {
+        if ($request->input('status')) {
             $status = $request->input('status');
             if ($status == 'trash') {
                 $act_list = [
@@ -82,8 +81,8 @@ class AdminProductController extends Controller
                 ];
                 $products = Product::onlyTrashed()
                     ->where($data)
-                    ->where('price','>',"{$min_price}")
-                    ->where('price','<=',"{$max_price}")
+                    ->where('price', '>', "{$min_price}")
+                    ->where('price', '<=', "{$max_price}")
                     ->orderBy('brand_id')
                     ->paginate(5);
                 $product_active = 'trash';
@@ -95,8 +94,8 @@ class AdminProductController extends Controller
                 ];
                 $products = Product::where($data)
                     ->where('status', '=', '1')
-                    ->where('price','>',"{$min_price}")
-                    ->where('price','<=',"{$max_price}")
+                    ->where('price', '>', "{$min_price}")
+                    ->where('price', '<=', "{$max_price}")
                     ->orderBy('brand_id')
                     ->paginate(5);
                 $product_active = 'wait';
@@ -108,29 +107,27 @@ class AdminProductController extends Controller
                 ];
                 $products = Product::where($data)
                     ->where('hot', '=', 'On')
-                    ->where('price','>',"{$min_price}")
-                    ->where('price','<=',"{$max_price}")
+                    ->where('price', '>', "{$min_price}")
+                    ->where('price', '<=', "{$max_price}")
                     ->orderBy('brand_id')
                     ->paginate(5);
                 $product_active = 'hot';
             }
-            if($status == 'all') {
+            if ($status == 'all') {
                 $products = Product::where($data)
-                ->where('price','>',"{$min_price}")
-                ->where('price','<=',"{$max_price}")
-                ->orderBy('brand_id')
-                ->paginate(5);
+                    ->where('price', '>', "{$min_price}")
+                    ->where('price', '<=', "{$max_price}")
+                    ->orderBy('brand_id')
+                    ->paginate(5);
                 $product_active = 'all';
             }
-        }
-        else
-        {
+        } else {
             $status = "all";
             $products = Product::where($data)
-            ->where('price','>',"{$min_price}")
-            ->where('price','<=',"{$max_price}")
-            ->orderBy('brand_id')
-            ->paginate(5);
+                ->where('price', '>', "{$min_price}")
+                ->where('price', '<=', "{$max_price}")
+                ->orderBy('brand_id')
+                ->paginate(5);
             $product_active = 'all';
         }
 
@@ -142,8 +139,18 @@ class AdminProductController extends Controller
         $count_wait_product = Product::where('status', '=', '1')->count();
         $count_hot_product = Product::where('hot', '=', 'On')->count();
         $count = [$count_all_product, $count_trash_product, $count_wait_product, $count_hot_product];
-        return view('admin.product.list', compact('products', 'count', 'act_list',
-        'product_active', 'cat_list','status','keyword','cat_id','min_price','max_price'));
+        return view('admin.product.list', compact(
+            'products',
+            'count',
+            'act_list',
+            'product_active',
+            'cat_list',
+            'status',
+            'keyword',
+            'cat_id',
+            'min_price',
+            'max_price'
+        ));
     }
     //===================Thêm mới=======================
     function add()
@@ -156,7 +163,7 @@ class AdminProductController extends Controller
         $request->validate(
             [
                 'file' => 'required|image',
-                'price' => 'required|integer',
+                'price' => 'required|integer|min:0',
                 'name' => 'required|string|max:255',
                 'desc' => 'required|string|max:255',
                 'details' => 'required',
@@ -168,7 +175,8 @@ class AdminProductController extends Controller
                 'max' => ':attribute có độ dài tối đa :max ký tự',
                 'image' => ':attribute phải là ảnh',
                 'string' => ':attribute phải có chữ',
-                'integer' => ':attribute phải là số'
+                'integer' => ':attribute phải là số',
+                'min' => ':attribute phải > 0'
 
             ],
             [
@@ -211,19 +219,24 @@ class AdminProductController extends Controller
     function delete($id)
     {
         if (Product::find($id) != null) {
-            Product::find($id)->update(['status'=>'3','hot'=> NULL]);
-            Product::find($id)->delete();
+            $product = Product::find($id);
+            $product->update(['status' => '3', 'hot' => NULL]);
+            $product->delete();
             return redirect('admin/product/list')->with('status', 'Đã thêm vào thùng rác');
         } else {
-            $product = Product::onlyTrashed()->find($id)->forceDelete();
-            @unlink($product->thumbnail);
-            return redirect('admin/product/list')->with('status', 'Xóa vĩnh viên thành công');
+            $product = Product::onlyTrashed()->find($id);
+            if ($product->order->count() == 0) {
+                $product->forceDelete();
+                return redirect('admin/product/list')->with('status', 'Xóa vĩnh viễn thành công');
+            } else {
+                return redirect('admin/product/list')->with('alert', 'Không thể xóa vĩnh viễn vì sản phẩm đã ở trong 1 hóa đơn khác');
+            }
         }
     }
     //===================Chỉnh sửa======================
     function edit($id)
     {
-        $brand_list = Brand::all();
+        $brand_list = Brand::all()->where('status', '2');
         $product = Product::withTrashed()->find($id);
         return view('admin.product.edit', compact('product', 'brand_list'));
     }
@@ -232,7 +245,7 @@ class AdminProductController extends Controller
         $request->validate(
             [
                 'file' => 'image',
-                'price' => 'required|integer',
+                'price' => 'required|integer|min:0',
                 'name' => 'required|string|max:255',
                 'desc' => 'required|string|max:255',
                 'details' => 'required',
@@ -244,7 +257,8 @@ class AdminProductController extends Controller
                 'max' => ':attribute có độ dài tối đa :max ký tự',
                 'image' => ':attribute phải là ảnh',
                 'string' => ':attribute phải có chữ',
-                'integer' => ':attribute phải là số'
+                'integer' => ':attribute phải là số',
+                'min' => ':attribute phải > 0'
 
             ],
             [
@@ -303,7 +317,7 @@ class AdminProductController extends Controller
                 $act = $request->input('act');
                 if ($act == 'delete') {
                     Product::whereIn('id', $check_list)
-                    ->update(['status' => '3','hot' => NULL]);
+                        ->update(['status' => '3', 'hot' => NULL]);
                     Product::destroy($check_list);
                     return redirect('admin/product/list')->with('status', 'Đã thêm vào thùng rác');
                 }
@@ -314,7 +328,7 @@ class AdminProductController extends Controller
                 }
                 if ($act == 'hot') {
                     Product::whereIn('id', $check_list)
-                        ->update(['hot' => 'On','status' => '2']);
+                        ->update(['hot' => 'On', 'status' => '2']);
                     return redirect('admin/product/list')->with('status', 'Cập nhật thành công');
                 }
                 if ($act == 'normal') {
@@ -324,8 +338,8 @@ class AdminProductController extends Controller
                 }
                 if ($act == 'restore') {
                     Product::onlyTrashed()
-                    ->whereIn('id', $check_list)
-                    ->update(['status' => '1','hot' => NULL]);
+                        ->whereIn('id', $check_list)
+                        ->update(['status' => '1', 'hot' => NULL]);
                     Product::onlyTrashed()
                         ->whereIn('id', $check_list)
                         ->restore();

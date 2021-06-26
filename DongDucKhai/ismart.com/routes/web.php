@@ -30,7 +30,7 @@ Route::middleware('auth','CheckRole:Admintrator')->group(function(){
     Route::post('admin/user/update/{id}',"AdminUserController@update")->name('user.update');
 });
 //================================ADMIN/PAGE========================================
-Route::middleware('auth')->group(function(){
+Route::middleware('auth','CheckRole:Admintrator')->group(function(){
     Route::get('admin/page/list','AdminPageController@list');
     Route::get('admin/page/add',"AdminPageController@add");
     Route::post('admin/page/store',"AdminPageController@store");
@@ -38,6 +38,16 @@ Route::middleware('auth')->group(function(){
     Route::get('admin/page/action',"AdminPageController@action");
     Route::get('admin/page/edit/{id}',"AdminPageController@edit")->name('page.edit');
     Route::post('admin/page/update/{id}',"AdminPageController@update")->name('page.update');
+});
+//================================ADMIN/CAT========================================
+Route::middleware('auth','CheckRole:Admintrator')->group(function(){
+    Route::get('admin/cat/list','AdminCatController@list');
+    Route::get('admin/cat/add',"AdminCatController@add");
+    Route::post('admin/cat/store',"AdminCatController@store");
+    Route::get('admin/cat/delete/{id}',"AdminCatController@delete")->name('cat.delete');
+    Route::get('admin/cat/action',"AdminCatController@action");
+    Route::get('admin/cat/edit/{id}',"AdminCatController@edit")->name('cat.edit');
+    Route::post('admin/cat/update/{id}',"AdminCatController@update")->name('cat.update');
 });
 //================================ADMIN/POST========================================
 Route::middleware('auth')->group(function(){

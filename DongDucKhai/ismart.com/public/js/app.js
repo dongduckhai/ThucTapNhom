@@ -1,14 +1,23 @@
 $(document).ready(function () {
+    //================================Sidebar Admin=================================
+
+    //Click vào 1 mục thì menu con sổ xuống
     $(".nav-link.active .sub-menu").slideDown();
-    // $("p").slideUp();
 
     $("#sidebar-menu .arrow").click(function () {
+        //Click vào mũi tên thì menu số lên sổ xuống
         $(this).parents("li").children(".sub-menu").slideToggle();
+        //Mũi tên thay đổi hình dạng ngang dọc
         $(this).toggleClass("fa-angle-right fa-angle-down");
     });
 
+    //================================Check All====================================
+
+    //Click vào checkAll
     $("input[name='checkall']").click(function () {
+
         var checked = $(this).is(":checked");
+        //Gán thuộc tính checked cho toàn bộ checkbox của bảng
         $(".table-checkall tbody tr td input:checkbox").prop(
             "checked",
             checked

@@ -79,6 +79,19 @@
                             <li><a href="{{url('admin/page/list')}}">Danh sách</a></li>
                         </ul>
                     </li>
+                    <li class="nav-link {{$module_active == 'cat'?'active':''}}">
+                        <a href="{{url('admin/cat/list')}}">
+                            <div class="nav-link-icon d-inline-flex">
+                                <i class="far fa-bookmark"></i>
+                            </div>
+                            Danh mục
+                        </a>
+                        <i class="arrow fas fa-angle-right"></i>
+                        <ul class="sub-menu">
+                            <li><a href="{{url('admin/cat/add')}}">Thêm mới</a></li>
+                            <li><a href="{{url('admin/cat/list')}}">Danh sách</a></li>
+                        </ul>
+                    </li>
                     <li class="nav-link {{$module_active == 'post'?'active':''}}">
                         <a href="{{url('admin/post/list')}}">
                             <div class="nav-link-icon d-inline-flex">

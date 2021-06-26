@@ -16,12 +16,10 @@
             <div class="card-body">
                 <div class="analytic">
                     <a href="{{ request()->fullUrlWithQuery(['status' => 'all','page'=> 1]) }}"
-                        class="{{ $page_active == 'all' ? 'text-danger' : 'text-dark' }}">Tất cả<span
-                            class="text-muted">({{ $count[0] }})</span></a>
+                        class="{{ $page_active == 'all' ? 'text-danger' : 'text-dark' }}">Tất cả({{ $count[0] }})</a>
                     {{-- chèn vào input 1 giá trị 'status' --}}
                     <a href="{{ request()->fullUrlWithQuery(['status' => 'trash','page'=> 1]) }}"
-                        class="{{ $page_active == 'trash' ? 'text-danger' : 'text-dark' }}">Thùng rác<span
-                            class="text-muted">({{ $count[1] }})</span></a>
+                        class="{{ $page_active == 'trash' ? 'text-danger' : 'text-dark' }}">Thùng rác({{ $count[1] }})</a>
                 </div>
                 <form action="{{ url('admin/page/action') }}" method="">
                     <div class="form-action form-inline py-3">
@@ -75,10 +73,12 @@
                                         </td>
                                         <td>{{ date_format($page->created_at,"d/m/Y") }}</td>
                                         <td>
+                                            @if ($page->status != '2')
                                             <a href="{{ route('page.edit', $page->id) }}"
                                                 class="btn btn-success btn-sm rounded-0 text-white" type="button"
                                                 data-toggle="tooltip" data-placement="top" title="Chỉnh sửa"><i
                                                     class="fa fa-edit"></i></a>
+                                            @endif
                                             <a class="btn btn-danger btn-sm rounded-0 text-white" type="button"
                                                 data-toggle="modal" data-target="#deleteModal{{$page->id}}" data-placement="top"
                                                 title="Xóa">

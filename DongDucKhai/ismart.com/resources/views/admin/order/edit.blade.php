@@ -166,7 +166,7 @@
                                     @php
                                         $count++;
                                     @endphp
-                                <tr class="">
+                                <tr>
                                     <td>{{ $count }}</td>
                                     <td>
                                         <img src="{{ url($product->thumbnail) }}" style="max-width:100px" alt="">

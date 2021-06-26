@@ -66,8 +66,7 @@ class AdminOrderController extends Controller
         //Tạo mã hóa đơn
         do {
             $code = Str::random(9);
-            $count = Order::all()
-                ->where('status', '=', '2')
+            $count = Order::withTrashed()
                 ->where('code', '=', "{$code}")
                 ->count();
         } while ($count > 0);
@@ -84,7 +83,7 @@ class AdminOrderController extends Controller
         $order->code = "ISMART-" . $code;
         $order->total = intval(Cart::total()) * 1000000; //chuyển cart::total() từ chuỗi->số
         $order->save();
-        //Tạo danh sách sản phẩm của 1 hóa đơn
+        //Ghi lại danh sách sản phẩm của 1 hóa đơn
         foreach (Cart::content() as $row) {
             $order->product()->attach($row->id, ['qty' => $row->qty]);
         }
@@ -128,7 +127,8 @@ class AdminOrderController extends Controller
         //Dropdown act_list
         $act_list = [
             'onTheWay' => 'Giao hàng',
-            'complete' => 'Hoàn thành'
+            'complete' => 'Hoàn thành',
+            'delete' => 'Hủy'
         ];
         //Danh sách dựa theo status
         if ($request->input('status'))
@@ -141,26 +141,29 @@ class AdminOrderController extends Controller
                 ];
                 $orders = Order::onlyTrashed()
                     ->where($data)
+                    ->orderBy('status')
                     ->paginate(4);
                 $order_active = 'trash';
             }
             if ($status == 'wait') {
                 $act_list = [
-                    'delete' => 'Chuyển thùng rác',
+                    'delete' => 'Hủy',
                     'onTheWay' => 'Giao hàng'
                 ];
                 $orders = Order::where($data)
                     ->where('status', '=', '1')
+                    ->orderBy('status')
                     ->paginate(4);
                 $order_active = 'wait';
             }
             if ($status == 'onTheWay') {
                 $act_list = [
-                    'delete' => 'Chuyển thùng rác',
+                    'delete' => 'Hủy',
                     'complete' => 'Hoàn thành'
                 ];
                 $orders = Order::where($data)
                     ->where('status', '=', '2')
+                    ->orderBy('status')
                     ->paginate(4);
                 $order_active = 'onTheWay';
             }
@@ -168,16 +171,21 @@ class AdminOrderController extends Controller
                 $act_list = [];
                 $orders = Order::where($data)
                     ->where('status', '=', '3')
+                    ->orderBy('status')
                     ->paginate(4);
                 $order_active = 'complete';
             }
             if ($status == 'all'){
-                $orders = Order::where($data)->paginate(4);
+                $orders = Order::where($data)
+                ->orderBy('status')
+                ->paginate(4);
                 $order_active = 'all';
             }
         } else {
             $status = 'all';
-            $orders = Order::where($data)->paginate(4);
+            $orders = Order::where($data)
+            ->orderBy('status')
+            ->paginate(4);
             $order_active = 'all';
         }
 
@@ -226,7 +234,7 @@ class AdminOrderController extends Controller
         }
         return redirect('admin/order/list')->with('status', 'Cập nhật thành công');
     }
-    //=================================Action====================================
+    //================================Action==================================
     function action(Request $request)
     {
         $check_list = $request->input('check_list');

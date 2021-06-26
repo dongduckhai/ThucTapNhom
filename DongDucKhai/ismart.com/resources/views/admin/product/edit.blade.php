@@ -32,7 +32,7 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="file">Ảnh</label>
+                        <label for="file">Ảnh tiêu đề</label>
                         <input class="form-control-file mb-2" type="file" name="file" id="thumbnail">
                         <img src="{{ url($product->thumbnail) }}" style="width: 20%">
                         @error('file')

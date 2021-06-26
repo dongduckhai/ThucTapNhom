@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Brand;
 use App\Cat;
+use App\Product;
 
 class AdminBrandController extends Controller
 {
@@ -50,36 +51,26 @@ class AdminBrandController extends Controller
         }
         //Dropdown act_list
         $act_list = [
-            'delete' => 'Xóa tạm thời',
             'changeStatus' => 'Duyệt'
         ];
-        if ($request->input('status'))
-        {
+        if ($request->input('status')) {
             $status = $request->input('status');
-            if ($status == 'trash') {
-                $act_list = [
-                    'restore' => 'Khôi phục',
-                    'forceDelete' => 'Xóa vĩnh viễn'
-                ];
-                //Tìm kiếm danh sách
-                $brands = Brand::onlyTrashed()
-                    ->where($data)
-                    ->paginate(5);
-                $brand_active = 'trash';
-            }
             if ($status == 'wait') {
                 $brands = Brand::where($data)
                     ->where('status', '=', '1')
+                    ->orderBy('status')
                     ->paginate(5);
                 $brand_active = 'wait';
             }
             if ($status == 'all') {
-                $brands = Brand::where($data)->paginate(5);
+                $brands = Brand::where($data)->orderBy('status')->paginate(5);
                 $brand_active = 'all';
             }
         } else {
             $status = 'all';
-            $brands = Brand::where($data)->paginate(5);
+            $brands = Brand::where($data)
+            ->orderBy('status')
+            ->paginate(5);
             $brand_active = 'all';
         }
 
@@ -87,12 +78,19 @@ class AdminBrandController extends Controller
         //Dropdown cat_list
         $cat_list = Cat::all();
         $count_all_brand = Brand::count();
-        $count_trash_brand = Brand::onlyTrashed()->count();
         $count_wait_brand = Brand::where('status', '=', '1')->count();
-        $count = [$count_all_brand, $count_trash_brand, $count_wait_brand];
+        $count = [$count_all_brand, $count_wait_brand];
         //số lượng phần tử đang có và đang trong thùng rác
-        return view('admin.brand.list', compact('brands', 'count', 'act_list',
-        'brand_active', 'cat_list', 'status','keyword','cat_id'));
+        return view('admin.brand.list', compact(
+            'brands',
+            'count',
+            'act_list',
+            'brand_active',
+            'cat_list',
+            'status',
+            'keyword',
+            'cat_id'
+        ));
     }
     //===================Thêm mới=======================
     function add()
@@ -130,20 +128,14 @@ class AdminBrandController extends Controller
     //====================Xóa===========================
     function delete($id)
     {
-        if (Brand::find($id) != null) {
-            Brand::find($id)->update(['status', '3']);
-            Brand::find($id)->delete();
-            return redirect('admin/brand/list')->with('status', 'Đã thêm vào thùng rác');
-        } else {
-            Brand::onlyTrashed()->find($id)->forceDelete();
-            return redirect('admin/brand/list')->with('status', 'Xóa vĩnh viên thành công');
-        }
+        Brand::find($id)->delete();
+        return redirect('admin/brand/list')->with('status', 'Xóa vĩnh viên thành công');
     }
     //===================Chỉnh sửa======================
     function edit($id)
     {
         $cat_list = Cat::all();
-        $brand = Brand::withTrashed()->find($id);
+        $brand = Brand::find($id);
         return view('admin.brand.edit', compact('brand', 'cat_list'));
     }
     function update(Request $request, $id)
@@ -179,31 +171,10 @@ class AdminBrandController extends Controller
         if ($check_list) {
             if ($request->input('act') != 'NULL') {
                 $act = $request->input('act');
-                if ($act == 'delete') {
-                    Brand::whereIn('id', $check_list)
-                        ->update(['status' => '3']);
-                    Brand::destroy($check_list);
-                    return redirect('admin/brand/list')->with('status', 'Đã thêm vào thùng rác');
-                }
                 if ($act == 'changeStatus') {
                     Brand::whereIn('id', $check_list)
                         ->update(['status' => '2']);
                     return redirect('admin/brand/list')->with('status', 'Duyệt thành công');
-                }
-                if ($act == 'restore') {
-                    Brand::onlyTrashed()
-                        ->whereIn('id', $check_list)
-                        ->update(['status' => '1']);
-                    Brand::onlyTrashed()
-                        ->whereIn('id', $check_list)
-                        ->restore();
-                    return redirect('admin/brand/list')->with('status', 'Khôi phục dữ liệu thành công');
-                }
-                if ($act == 'forceDelete') {
-                    Brand::onlyTrashed()
-                        ->whereIn('id', $check_list)
-                        ->forceDelete();
-                    return redirect('admin/brand/list')->with('status', 'Xóa vĩnh viễn thành công');
                 }
             } else {
                 return redirect('admin/brand/list')->with('status', 'Hãy chọn 1 tác vụ');

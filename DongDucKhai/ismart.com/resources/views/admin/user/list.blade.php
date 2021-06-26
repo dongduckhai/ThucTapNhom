@@ -16,12 +16,10 @@
             <div class="card-body">
                 <div class="analytic">
                     <a href="{{ request()->fullUrlWithQuery(['status' => 'all','page'=> 1]) }}"
-                        class="{{ $user_active == 'all' ? 'text-danger' : 'text-dark' }}">Tất cả<span
-                            class="text-muted">({{ $count[0] }})</span></a>
+                        class="{{ $user_active == 'all' ? 'text-danger' : 'text-dark' }}">Tất cả({{ $count[0] }})</a>
                     {{-- chèn vào input 1 giá trị 'status' --}}
                     <a href="{{ request()->fullUrlWithQuery(['status' => 'trash','page'=> 1]) }}"
-                        class="{{ $user_active == 'trash' ? 'text-danger' : 'text-dark' }}">Thùng rác<span
-                            class="text-muted">({{ $count[1] }})</span></a>
+                        class="{{ $user_active == 'trash' ? 'text-danger' : 'text-dark' }}">Thùng rác({{ $count[1] }})</a>
                 </div>
                 <form action="{{ url('admin/user/action') }}" method="">
                     <div class="form-action form-inline py-3">
