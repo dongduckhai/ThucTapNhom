@@ -236,5 +236,10 @@ namespace QL_KS.GUI
         {
 
         }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
